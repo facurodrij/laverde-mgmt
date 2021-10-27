@@ -1,4 +1,4 @@
-# Iteración 1
+# Iteración 2
 ## Trabajo en equipo:
 El líder de equipo para esta iteración será Rodrigo Lionel Antoniak y a continuación se describirá el trabajo de cada integrante:
 - Rodrigo Lionel Antoniak realizará el CRUD perteneciente a las historias de usuario 1, 2 y 4 en el *Backlog de iteraciones*, diseño OO y casos de uso.
