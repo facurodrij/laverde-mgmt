@@ -1,8 +1,0 @@
-{
-    "java.project.sourcePaths": [
-        "integrador.src"
-    ],
-    "java.debug.settings.vmArgs": "--module-path /home/rodrigo/Descargas/javafx-sdk-11.0.2/lib --add-modules javafx.base,javafx.controls,javafx.fxml,javafx.graphics,javafx.media,javafx.swing,javafx.web",
-    "java.debug.logLevel": "verbose",
-    "java.dependency.syncWithFolderExplorer": true,
-}
