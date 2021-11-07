@@ -3,12 +3,12 @@
 instance" version="2.2" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
     <persistence-unit name="LaVerdeSA" transaction-type="RESOURCE_LOCAL">      
         <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
-        <class>edu.unam.modelo.Cosecha</class>
-        <class>edu.unam.modelo.Empleado</class>
-        <class>edu.unam.modelo.Productor</class>
-        <class>edu.unam.modelo.Lote</class>
-        <class>edu.unam.modelo.Cuadro</class>
-        <class>edu.unam.modelo.Secadero</class>
+        <class>edu.unam.jte.modelos.Cosecha</class>
+        <class>edu.unam.jte.modelos.Empleado</class>
+        <class>edu.unam.jte.modelos.Productor</class>
+        <class>edu.unam.jte.modelos.Lote</class>
+        <class>edu.unam.jte.modelos.Cuadro</class>
+        <class>edu.unam.jte.modelos.Secadero</class>
         <exclude-unlisted-classes>true</exclude-unlisted-classes>
         <properties>
             <property name="jakarta.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/laverde"/>
