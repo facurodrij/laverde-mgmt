@@ -2,6 +2,7 @@ package edu.unam.jte.modelos;
 
 import java.util.*;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,9 @@ public class Productor {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idProductor;
 
+    @Column(unique=true)
     private long cuit;
+
     private String apellidos;
     private String nombres;
   
@@ -78,7 +81,30 @@ public class Productor {
     }
 
     @Override
+    public int hashCode() {
+        long resultado = 0;
+        for (int i=10; i > 0; i--) {
+            resultado += ((cuit % (10^i)) / (10^(i-1)));
+        }
+        return (int)resultado;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Productor other = (Productor) obj;
+        if (cuit != other.cuit)
+            return false;
+        return true;
+    }
+
+    @Override
     public final String toString() {
-        return Integer.toString(this.getIdProductor()) + ". " + Long.toString(this.getCuit()) + " " + this.getApellidos() + ", " + this.getNombres();
+        return Integer.toString(this.getIdProductor()) + "- CUIT: " + Long.toString(this.getCuit()) + ". Nombre completo: " + this.getApellidos() + ", " + this.getNombres();
     }
 }

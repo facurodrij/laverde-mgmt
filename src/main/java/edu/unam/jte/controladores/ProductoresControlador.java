@@ -20,8 +20,7 @@ public class ProductoresControlador {
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloProductores();
         modelo.productores = productoresRepositorio.listar();
-        System.out.println(modelo.productores);
-        //ctx.render("cursos.jte", Collections.singletonMap("modelo", modelo));        
+        System.out.println(modelo.productores);      
         ctx.render("productores.jte", Collections.singletonMap("modelo", modelo));
     }
 
@@ -52,7 +51,7 @@ public class ProductoresControlador {
 
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
-        modelo.productor = this.productoresRepositorio.obtener(ctx.pathParamAsClass("idProductor", Integer.class).get());
+        modelo.productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("idProductor", Integer.class).get()));
         ctx.render("editarProductor.jte", Collections.singletonMap("modelo", modelo));
     }
 
