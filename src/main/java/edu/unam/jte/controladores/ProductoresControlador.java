@@ -4,10 +4,11 @@ import io.javalin.http.Context;
 import java.sql.SQLException;
 import java.util.Collections;
 
+import edu.unam.jte.paginas.ModeloProductores;
 import edu.unam.jte.repositorios.ProductoresRepositorio;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloProductor;
-import edu.unam.jte.paginas.ModeloProductores;
+
 
 public class ProductoresControlador {
 
@@ -46,12 +47,17 @@ public class ProductoresControlador {
     }
 
     public void borrar(Context ctx) throws SQLException {
-        this.productoresRepositorio.borrar((ctx.pathParamAsClass("idProductor", Integer.class).get()));
+       this.productoresRepositorio.borrar((ctx.pathParamAsClass("id", Integer.class).get()));
     }
 
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
-        modelo.productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("idProductor", Integer.class).get()));
+        try {
+            modelo.productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("id", Integer.class).get()));
+          }
+          catch(Exception e) {
+            System.out.println(e); 
+          }
         ctx.render("editarProductor.jte", Collections.singletonMap("modelo", modelo));
     }
 

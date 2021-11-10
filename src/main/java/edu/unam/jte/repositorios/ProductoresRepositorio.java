@@ -7,7 +7,7 @@ public interface ProductoresRepositorio {
 
     List<Productor> listar();
     void crear (Productor productor);
-    boolean borrar (int idProductor);
+    boolean borrar (int id);
     Productor obtener (int id);
     
 }

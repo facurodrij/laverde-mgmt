@@ -46,10 +46,10 @@ public class JPAProductoresRepositorio implements ProductoresRepositorio {
     }
 
     @Override
-    public boolean borrar(int idProductor) {
+    public boolean borrar(int id) {
 
         var em = emf.createEntityManager();
-        var productor = em.find(Productor.class, idProductor);
+        var productor = em.find(Productor.class, id);
         try {
             if (productor != null) {
                 em.getTransaction().begin();

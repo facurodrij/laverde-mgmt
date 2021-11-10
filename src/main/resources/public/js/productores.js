@@ -4,3 +4,10 @@ let borrar = function (id) {
         }
     ).then(res => location.reload());
 }
+
+// let actualizar = function (id) {
+//     fetch(`http://localhost:7000/productores/${id}`, {
+//             method: 'PUT',
+//         }
+//     ).then(res => location.redirect("/productores"));
+// }
