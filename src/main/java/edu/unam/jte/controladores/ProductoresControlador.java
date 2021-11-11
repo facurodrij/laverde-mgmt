@@ -5,23 +5,22 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 import edu.unam.jte.paginas.ModeloProductores;
-import edu.unam.jte.repositorios.ProductoresRepositorio;
+import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloProductor;
 
 
 public class ProductoresControlador {
 
-    private final ProductoresRepositorio productoresRepositorio;
+    private Repositorio repositorio;
 
-    public ProductoresControlador(ProductoresRepositorio productoresRepositorio) {
-        this.productoresRepositorio = productoresRepositorio;
+    public ProductoresControlador(Repositorio repositorio) {
+        this.repositorio = repositorio;
     }
 
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloProductores();
-        modelo.productores = productoresRepositorio.listar();
-        System.out.println(modelo.productores);      
+        modelo.productores = repositorio.buscarTodos(Productor.class);     
         ctx.render("productores.jte", Collections.singletonMap("modelo", modelo));
     }
 
@@ -30,55 +29,66 @@ public class ProductoresControlador {
     }
 
     public void crear(Context ctx) throws SQLException {
-
-        // obtengo datos del formulario
         var cuit = ctx.formParamAsClass("cuit", Long.class).get();
         var apellidos = ctx.formParamAsClass("apellidos", String.class).get();
         var nombres = ctx.formParamAsClass("nombres", String.class).get();
         
-        // creo objeto Productor
-        var productor = new Productor(cuit, apellidos, nombres);
+        Productor productor = new Productor(cuit, apellidos, nombres);
 
-        // inserto en base de datos
-        this.productoresRepositorio.crear(productor);
+        this.repositorio.iniciarTransaccion();
+        try {
+            this.repositorio.insertar(productor);
+        } catch(Exception e) {
+            System.out.println(e);
+            this.repositorio.descartarTransaccion();
+        } finally {
+            this.repositorio.confirmarTransaccion();
+        }
         
-        // redirecciono
         ctx.redirect("/productores");        
     }
 
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
-        try {
-            modelo.productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("id", Integer.class).get()));
-          }
-          catch(Exception e) {
-            System.out.println(e); 
-          }
+        modelo.productor = this.repositorio.buscar(Productor.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        
         ctx.render("editarProductor.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void actualizar(Context ctx) throws SQLException {
 
-        // obtengo datos del formulario
-        //var id = ctx.pathParamAsClass("id", Integer.class).get();
         var cuit = ctx.formParamAsClass("cuit", Long.class).get();
         var apellidos = ctx.formParamAsClass("apellidos", String.class).get();
         var nombres = ctx.formParamAsClass("nombres", String.class).get();
         
-        Productor productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("id", Integer.class).get()));
+        Productor productor = this.repositorio.buscar(Productor.class,(ctx.pathParamAsClass("id", Integer.class).get()));
         if (productor != null) {
             productor.setCuit(cuit);
             productor.setApellidos(apellidos);
             productor.setNombres(nombres);
-            this.productoresRepositorio.actualizar(productor);
+            this.repositorio.iniciarTransaccion();
+            try {
+                this.repositorio.modificar(productor);
+            } catch(Exception e) {
+                System.out.println(e);
+                this.repositorio.descartarTransaccion();
+            } finally {
+                this.repositorio.confirmarTransaccion();
+            }
         }
-        // inserto en base de datos
-        // this.productoresRepositorio.actualizar(id, productor);
-        // redirecciono
+
         ctx.redirect("/productores");        
     }
 
     public void borrar(Context ctx) throws SQLException {
-        this.productoresRepositorio.borrar((ctx.pathParamAsClass("id", Integer.class).get()));
-     }
+        this.repositorio.iniciarTransaccion();
+        try {
+            this.repositorio.eliminar(Productor.class, (ctx.pathParamAsClass("id", Integer.class).get()));
+        } catch(Exception e) {
+            System.out.println(e);
+            this.repositorio.descartarTransaccion();
+        } finally {
+            this.repositorio.confirmarTransaccion();
+        }
+    }
 }

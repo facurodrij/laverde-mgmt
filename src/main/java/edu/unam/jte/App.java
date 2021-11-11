@@ -30,8 +30,8 @@ public class App {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LaVerdeSA");
 
         // repositorios y controladores
-        var productoresRepositorio = new JPAProductoresRepositorio(emf);
-        var productoresControlador = new ProductoresControlador(productoresRepositorio);
+        var Repositorio = new Repositorio(emf);
+        var productoresControlador = new ProductoresControlador(Repositorio);
         
         // creo servidor
         Javalin app = Javalin.create(config -> {
@@ -46,7 +46,6 @@ public class App {
             path("productores", () -> {
                 get(productoresControlador::listar);
                 post(productoresControlador::crear);
-                // delete("eliminar/{id}", productoresControlador::borrar);
                 path("nuevo", () -> {
                     get(productoresControlador::nuevo);
                 });
