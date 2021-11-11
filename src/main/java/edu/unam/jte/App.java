@@ -10,6 +10,8 @@ import edu.unam.jte.controladores.*;
 import edu.unam.jte.paginas.*;
 import edu.unam.jte.repositorios.*;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
 // para usar routes
 // import static io.javalin.apibuilder.ApiBuilder.*;
 
@@ -39,15 +41,31 @@ public class App {
         .start(7000);
 
 
-        // defino rutas
+        //defino rutas
+        app.routes(() -> {
+            path("productores", () -> {
+                get(productoresControlador::listar);
+                post(productoresControlador::crear);
+                // delete("eliminar/{id}", productoresControlador::borrar);
+                path("nuevo", () -> {
+                    get(productoresControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(productoresControlador::modificar);
+                    post(productoresControlador::actualizar);
+                    delete(productoresControlador::borrar);
+                });
+            });
+        });
+
         app.get("/", App::mostrarIndex); // muestra el index
         app.post("/", App::validarUsuario); // "valida usuario"
-        app.get("/productores", productoresControlador::listar); // lista los productores
-        app.get("/productores/nuevo", productoresControlador::nuevo); // pantalla de nuevo curso
-        app.post("/productores", productoresControlador::crear); // crea un curso
-        app.get("/productores/{id}", productoresControlador::modificar); // devuelve datos del curso
-        app.delete("/productores/{id}", productoresControlador::borrar); // borra un curso 
-
+        //app.get("/productores", productoresControlador::listar); // lista los productores
+        // pantalla de nuevo curso
+        ///app.post("/productores/crear", productoresControlador::crear); // crea un curso
+        //app.get("/productores/editar/{id}", productoresControlador::modificar); // devuelve datos del curso
+        //app.post("/productores/editar", productoresControlador::actualizar); // actualiza del curso
+        //app.delete("/productores/{id}", productoresControlador::borrar); // borra un curso 
     }
 
     

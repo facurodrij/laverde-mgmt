@@ -4,7 +4,7 @@
 
 <h2> Hello ${modelo.productor.getNombres()} </h2>
 
-<form action="/productores" method="post">
+<form action="/productores/${modelo.productor.getIdProductor()}" method="post">
     <div class="form-group row">
         <label for="cuit" class="col-sm-2 col-form-label"> CUIT del productor </label>
         <div class="col-sm-8">
@@ -23,7 +23,7 @@
             <input class="form-control" type="text" placeholder="Ingrese el apellido" name="apellidos" value="${modelo.productor.getApellidos()}"/>
         </div>
     </div>
-    <button type="button" class="btn btn-primary"> Guardar </button>
+    <button type="submit" class="btn btn-primary"> Guardar </button>
     <a href="/" type="button" class="btn btn-secondary"> Volver </a>
 </form>
 

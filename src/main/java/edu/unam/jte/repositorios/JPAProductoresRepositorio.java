@@ -46,6 +46,15 @@ public class JPAProductoresRepositorio implements ProductoresRepositorio {
     }
 
     @Override
+    public void actualizar(Productor productor) {
+        var em = emf.createEntityManager();
+        em.getTransaction().begin();
+        em.merge(productor);
+        em.getTransaction().commit();
+        em.close();
+    }    
+
+    @Override
     public boolean borrar(int id) {
 
         var em = emf.createEntityManager();

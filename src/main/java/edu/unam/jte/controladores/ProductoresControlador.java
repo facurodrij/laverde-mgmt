@@ -46,10 +46,6 @@ public class ProductoresControlador {
         ctx.redirect("/productores");        
     }
 
-    public void borrar(Context ctx) throws SQLException {
-       this.productoresRepositorio.borrar((ctx.pathParamAsClass("id", Integer.class).get()));
-    }
-
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
         try {
@@ -61,4 +57,28 @@ public class ProductoresControlador {
         ctx.render("editarProductor.jte", Collections.singletonMap("modelo", modelo));
     }
 
+    public void actualizar(Context ctx) throws SQLException {
+
+        // obtengo datos del formulario
+        //var id = ctx.pathParamAsClass("id", Integer.class).get();
+        var cuit = ctx.formParamAsClass("cuit", Long.class).get();
+        var apellidos = ctx.formParamAsClass("apellidos", String.class).get();
+        var nombres = ctx.formParamAsClass("nombres", String.class).get();
+        
+        Productor productor = this.productoresRepositorio.obtener((ctx.pathParamAsClass("id", Integer.class).get()));
+        if (productor != null) {
+            productor.setCuit(cuit);
+            productor.setApellidos(apellidos);
+            productor.setNombres(nombres);
+            this.productoresRepositorio.actualizar(productor);
+        }
+        // inserto en base de datos
+        // this.productoresRepositorio.actualizar(id, productor);
+        // redirecciono
+        ctx.redirect("/productores");        
+    }
+
+    public void borrar(Context ctx) throws SQLException {
+        this.productoresRepositorio.borrar((ctx.pathParamAsClass("id", Integer.class).get()));
+     }
 }
