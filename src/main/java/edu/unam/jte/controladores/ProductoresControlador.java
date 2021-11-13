@@ -21,11 +21,11 @@ public class ProductoresControlador {
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloProductores();
         modelo.productores = repositorio.buscarTodos(Productor.class);     
-        ctx.render("productores.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("productor/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) throws SQLException {
-        ctx.render("crearProductor.jte", Collections.singletonMap("modelo", null));        
+        ctx.render("productor/crear.jte", Collections.singletonMap("modelo", null));        
     }
 
     public void crear(Context ctx) throws SQLException {
@@ -38,11 +38,10 @@ public class ProductoresControlador {
         this.repositorio.iniciarTransaccion();
         try {
             this.repositorio.insertar(productor);
+            this.repositorio.confirmarTransaccion();
         } catch(Exception e) {
             System.out.println(e);
             this.repositorio.descartarTransaccion();
-        } finally {
-            this.repositorio.confirmarTransaccion();
         }
         
         ctx.redirect("/productores");        
@@ -52,7 +51,7 @@ public class ProductoresControlador {
         var modelo = new ModeloProductor();
         modelo.productor = this.repositorio.buscar(Productor.class,(ctx.pathParamAsClass("id", Integer.class).get()));
         
-        ctx.render("editarProductor.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void actualizar(Context ctx) throws SQLException {
@@ -69,11 +68,10 @@ public class ProductoresControlador {
             this.repositorio.iniciarTransaccion();
             try {
                 this.repositorio.modificar(productor);
+                this.repositorio.confirmarTransaccion();
             } catch(Exception e) {
                 System.out.println(e);
                 this.repositorio.descartarTransaccion();
-            } finally {
-                this.repositorio.confirmarTransaccion();
             }
         }
 
@@ -84,11 +82,10 @@ public class ProductoresControlador {
         this.repositorio.iniciarTransaccion();
         try {
             this.repositorio.eliminar(Productor.class, (ctx.pathParamAsClass("id", Integer.class).get()));
+            this.repositorio.confirmarTransaccion();
         } catch(Exception e) {
             System.out.println(e);
             this.repositorio.descartarTransaccion();
-        } finally {
-            this.repositorio.confirmarTransaccion();
         }
     }
 }

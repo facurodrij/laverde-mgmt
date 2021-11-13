@@ -93,6 +93,6 @@ public class App {
         ctx.cookie("nombreUsuario", valor.trim());
         // redirecciono a / 
         ctx.redirect("/");
-    }    
+    }
 }
 

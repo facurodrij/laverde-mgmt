@@ -38,7 +38,6 @@ public class Repositorio {
 
     public <T extends Object> void eliminar(Class<T> clase, Object id) {
         T objeto = this.em.find(clase, id);
-        System.out.println(objeto);
         this.em.remove(objeto);
     }
 
