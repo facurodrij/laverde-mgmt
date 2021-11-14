@@ -10,7 +10,11 @@
   <!-- Font Awesome -->
   <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="/plugins/adminlte/css/adminlte.min.css">
+  <link rel="stylesheet" href="/plugins/adminlte/css/adminlte.css">
+  <!-- DataTables -->
+  <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
+  <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
+  
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
@@ -24,10 +28,7 @@
         <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
       </li>
       <li class="nav-item d-none d-sm-inline-block">
-        <a href="../../index3.html" class="nav-link">Home</a>
-      </li>
-      <li class="nav-item d-none d-sm-inline-block">
-        <a href="#" class="nav-link">Contact</a>
+        <a href="/" class="nav-link">Inicio</a>
       </li>
     </ul>
   </nav>

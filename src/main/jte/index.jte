@@ -1,3 +1,4 @@
+@param edu.unam.jte.paginas.ModeloIndex modelo
 
 @tag.head()
 
@@ -10,14 +11,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Collapsed Sidebar</h1>
-          </div>
-          <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="#">Home</a></li>
-              <li class="breadcrumb-item"><a href="#">Layout</a></li>
-              <li class="breadcrumb-item active">Collapsed Sidebar</li>
-            </ol>
+            <h1>La Verde</h1>
           </div>
         </div>
       </div><!-- /.container-fluid -->
@@ -43,7 +37,17 @@
                 </div>
               </div>
               <div class="card-body">
-                Start creating your amazing application!
+                @if (!modelo.nombreUsuario.trim().isEmpty()) 
+                    <h2><b> Hola ${modelo.nombreUsuario}! </b></h2>
+                @else        
+                    <form action="/" method="post" onsubmit="return validarUsuario();">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"> Usuario </label>
+                            <input class="form-control col-sm-4" type="text" placeholder="nombre del usuario" id="nombreUsuario" name="nombreUsuario"/>
+                        </div>
+                        <button class="btn btn-primary"> Ingresar </button>
+                    </form>
+                @endif
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
