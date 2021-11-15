@@ -45,7 +45,7 @@
               </div>
               <div class="card-body">
                 <a href="/productores/nuevo" class="btn btn-primary mb-3">
-                    <i class="fas fa-plus"></i> Nuevo registro
+                    <i class="fas fa-plus"></i> Nuevo productor
                 </a>
                 <a href="/" type="button" class="btn btn-secondary mb-3"> Volver </a>
                 <div class="table-responsive">
@@ -71,9 +71,9 @@
                                         <a type="button" class="btn btn-warning btn-xs no-gutters" href="/productores/${productor.getIdProductor()}">
                                           <i class="fas fa-edit"></i>
                                         </a>
-                                        <button type="button" class="btn btn-danger btn-xs no-gutters" onClick="borrar(${productor.getIdProductor()})">
+                                        <a type="button" class="btn btn-danger btn-xs no-gutters" onClick="borrar(${productor.getIdProductor()})">
                                           <i class="fas fa-trash-alt"></i>
-                                        </button>
+                                        </a>
                                     </td>
                                 </tr>
                             @endfor
@@ -91,5 +91,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
+  <script src="/js/productores.js"></script>
 
 @tag.footer()

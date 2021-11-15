@@ -50,7 +50,6 @@ public class ProductoresControlador {
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
         modelo.productor = this.repositorio.buscar(Productor.class,(ctx.pathParamAsClass("id", Integer.class).get()));
-        
         ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
     }
 
@@ -79,13 +78,16 @@ public class ProductoresControlador {
     }
 
     public void borrar(Context ctx) throws SQLException {
-        this.repositorio.iniciarTransaccion();
-        try {
-            this.repositorio.eliminar(Productor.class, (ctx.pathParamAsClass("id", Integer.class).get()));
-            this.repositorio.confirmarTransaccion();
-        } catch(Exception e) {
-            System.out.println(e);
-            this.repositorio.descartarTransaccion();
+        Productor productor = this.repositorio.buscar(Productor.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        if (productor != null) {
+            this.repositorio.iniciarTransaccion();
+            try {
+                this.repositorio.eliminar(Productor.class, productor);
+                this.repositorio.confirmarTransaccion();
+            } catch(Exception e) {
+                System.out.println(e);
+                this.repositorio.descartarTransaccion();
+            }
         }
     }
 }

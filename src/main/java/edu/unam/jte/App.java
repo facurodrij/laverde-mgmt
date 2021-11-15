@@ -36,10 +36,10 @@ public class App {
         // creo servidor
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public", Location.CLASSPATH);
+            config.enableCorsForAllOrigins();
         })
-        .exception(Exception.class, (e, ctx) -> { ctx.status(404); }) 
+        .exception(Exception.class, (e, ctx) -> { ctx.status(404); })
         .start(7000);
-
 
         //defino rutas
         app.routes(() -> {
@@ -59,12 +59,6 @@ public class App {
 
         app.get("/", App::mostrarIndex); // muestra el index
         app.post("/", App::validarUsuario); // "valida usuario"
-        //app.get("/productores", productoresControlador::listar); // lista los productores
-        // pantalla de nuevo curso
-        ///app.post("/productores/crear", productoresControlador::crear); // crea un curso
-        //app.get("/productores/editar/{id}", productoresControlador::modificar); // devuelve datos del curso
-        //app.post("/productores/editar", productoresControlador::actualizar); // actualiza del curso
-        //app.delete("/productores/{id}", productoresControlador::borrar); // borra un curso 
     }
 
     

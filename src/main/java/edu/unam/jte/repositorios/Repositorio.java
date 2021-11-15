@@ -36,8 +36,7 @@ public class Repositorio {
         this.em.merge(o);
     }
 
-    public <T extends Object> void eliminar(Class<T> clase, Object id) {
-        T objeto = this.em.find(clase, id);
+    public <T extends Object> void eliminar(Class<T> clase, T objeto) {
         this.em.remove(objeto);
     }
 
