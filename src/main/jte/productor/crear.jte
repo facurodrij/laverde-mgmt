@@ -48,7 +48,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">CUIT</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el cuit" name="cuit"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el cuit" id="cuit" required/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -56,7 +56,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Nombre</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el nombre" name="nombres"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el nombre" id="nombres"/>
                             </div>                            
                         </div>
                         <div class="form-group row">
@@ -64,7 +64,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Apellido</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el apellido" name="apellidos"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el apellido" id="apellidos"/>
                             </div>
                         </div>
                     </div>
@@ -85,6 +85,33 @@
   </div>
 <!-- /.content-wrapper -->
 
-<h2> Crear productor </h2>
+<script>
+  $(document).ready(function () {
+    $("form").submit(function (event) {
+      event.preventDefault();
+
+      var formData = {
+        cuit: $("#cuit").val(),
+        nombres: $("#nombres").val(),
+        apellidos: $("#apellidos").val(),
+      };
+      console.log(formData);
+
+      $.post("/productores",formData,function(){
+      })
+        .done(function() {
+          alert("Productor agregado correctamente.");
+          location.href="/productores";
+        })
+        .fail(function() {
+          alert("Ha ocurrido un Error, Verifique el campo CUIT.");
+        })
+        .always(function() {
+          
+        });
+    });
+  });
+
+</script>
 
 @tag.footer()

@@ -14,7 +14,9 @@
   <!-- DataTables -->
   <link rel="stylesheet" href="//cdn.datatables.net/1.11.3/css/dataTables.bootstrap4.min.css">
   <link rel="stylesheet" href="//cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
-  
+  <!-- jQuery -->
+  <script src="/plugins/adminlte/js/jquery.min.js"></script>
+
 </head>
 
 <body class="hold-transition sidebar-mini sidebar-collapse">
