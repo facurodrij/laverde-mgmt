@@ -41,7 +41,7 @@
                     </button>
                     </div>
                 </div>
-                <form action="/productores" method="post">
+                <form action="/productores" method="post" id="productor">
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-6 input-group">
@@ -49,6 +49,7 @@
                                     <span class="input-group-text">CUIT</span>
                                 </div>
                                 <input class="form-control" type="text" placeholder="Ingrese el cuit" id="cuit" required/>
+                                <small></small>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -56,7 +57,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Nombre</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el nombre" id="nombres"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el nombre" id="nombres" required/>
+                                <small></small>
                             </div>                            
                         </div>
                         <div class="form-group row">
@@ -64,7 +66,8 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Apellido</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el apellido" id="apellidos"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el apellido" id="apellidos" required/>
+                                <small></small>
                             </div>
                         </div>
                     </div>
@@ -85,33 +88,6 @@
   </div>
 <!-- /.content-wrapper -->
 
-<script>
-  $(document).ready(function () {
-    $("form").submit(function (event) {
-      event.preventDefault();
-
-      var formData = {
-        cuit: $("#cuit").val(),
-        nombres: $("#nombres").val(),
-        apellidos: $("#apellidos").val(),
-      };
-      console.log(formData);
-
-      $.post("/productores",formData,function(){
-      })
-        .done(function() {
-          alert("Productor agregado correctamente.");
-          location.href="/productores";
-        })
-        .fail(function() {
-          alert("Ha ocurrido un Error, Verifique el campo CUIT.");
-        })
-        .always(function() {
-          
-        });
-    });
-  });
-
-</script>
+<script src="/js/productor/crear.js"></script>
 
 @tag.footer()

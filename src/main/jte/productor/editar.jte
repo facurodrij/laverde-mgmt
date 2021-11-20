@@ -43,14 +43,15 @@
                   </button>
                 </div>
               </div>
-              <form action="/productores/${modelo.productor.getIdProductor()}" method="post">
+              <form action="/productores/${modelo.productor.getIdProductor()}" method="post" id="productor">
+                    <input class="form-control" type="hidden" id="idProductor" value="${modelo.productor.getIdProductor()}"/>
                     <div class="card-body">
                         <div class="form-group row">
                             <div class="col-6 input-group">
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">CUIT</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el cuit" name="cuit" value="${modelo.productor.getCuit()}"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el cuit" id="cuit" value="${modelo.productor.getCuit()}" required/>
                             </div>
                         </div>
                         <div class="form-group row">
@@ -58,7 +59,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Nombre</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el nombre" name="nombres" value="${modelo.productor.getNombres()}"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el nombre" id="nombres" value="${modelo.productor.getNombres()}" required/>
                             </div>                            
                         </div>
                         <div class="form-group row">
@@ -66,7 +67,7 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">Apellido</span>
                                 </div>
-                                <input class="form-control" type="text" placeholder="Ingrese el apellido" name="apellidos" value="${modelo.productor.getApellidos()}"/>
+                                <input class="form-control" type="text" placeholder="Ingrese el apellido" id="apellidos" value="${modelo.productor.getApellidos()}" required/>
                             </div>
                         </div>
                     </div>
@@ -86,5 +87,7 @@
     <!-- /.content -->
   </div>
 <!-- /.content-wrapper -->
+
+<script src="/js/productor/actualizar.js"></script>
 
 @tag.footer()

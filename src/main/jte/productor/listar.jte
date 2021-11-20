@@ -91,6 +91,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <script src="/js/productores.js"></script>
+  <script src="/js/productor/borrar.js"></script>
 
 @tag.footer()
