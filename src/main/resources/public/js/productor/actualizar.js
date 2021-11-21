@@ -7,9 +7,8 @@ $(document).ready(function () {
         nombres: $("#nombres").val(),
         apellidos: $("#apellidos").val(),
         };
-        console.log(formData);
 
-        var url = "/productores/".concat($("#idProductor").val())
+        var url = $(this).attr("action");
 
         $.post(url,formData,function(){
         })

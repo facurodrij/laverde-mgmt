@@ -7,9 +7,10 @@ $(document).ready(function () {
         nombres: $("#nombres").val(),
         apellidos: $("#apellidos").val(),
         };
-        console.log(formData);
 
-        $.post("/productores",formData,function(){
+        var url = $(this).attr("action");
+
+        $.post(url,formData,function(){
         })
         .done(function() {
             alert("Productor agregado correctamente.");
