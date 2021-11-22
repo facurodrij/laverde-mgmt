@@ -39,7 +39,7 @@ public final class JtelistarGenerated {
 		jteOutput.writeContent("\r\n            </div>\r\n            ");
 		jteOutput.writeContent("\r\n          </div>\r\n        </div>\r\n      </div>\r\n    </section>\r\n    ");
 		jteOutput.writeContent("\r\n  </div>\r\n  ");
-		jteOutput.writeContent("\r\n  <script src=\"/js/productores.js\"></script>\r\n\r\n");
+		jteOutput.writeContent("\r\n  <script src=\"/js/productor/borrar.js\"></script>\r\n\r\n");
 		gg.jte.generated.ondemand.tag.JtefooterGenerated.render(jteOutput, jteHtmlInterceptor);
 	}
 	public static void renderMap(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, java.util.Map<String, Object> params) {
