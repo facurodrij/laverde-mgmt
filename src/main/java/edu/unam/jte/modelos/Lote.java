@@ -44,8 +44,16 @@ public class Lote {
         return this.punto1;
     }
 
+    public String punto1_ToString() {
+        return Double.toString(this.punto1[0]) + "; " + Double.toString(this.punto1[1]);
+    }
+
     public double[] getPunto2() {
         return this.punto2;
+    }
+
+    public String punto2_ToString() {
+        return Double.toString(this.punto2[0]) + "; " + Double.toString(this.punto2[1]);
     }
 
     public Productor getProductor() {
@@ -81,6 +89,8 @@ public class Lote {
         this.punto2 = new double[2];
         this.puntos = this.toString();
     }
+
+
     @Override
     public final String toString() {
         return Integer.toString(this.getIdLote()) + ". (" + Double.toString(this.punto1[0]) + "," + Double.toString(this.punto1[1]) + ") ; (" + Double.toString(this.punto2[0]) + "," + Double.toString(this.punto2[1]) + ")";

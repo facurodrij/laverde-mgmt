@@ -32,6 +32,7 @@ public class App {
         // repositorios y controladores
         var Repositorio = new Repositorio(emf);
         var productoresControlador = new ProductoresControlador(Repositorio);
+        var lotesControlador = new LotesControlador(Repositorio);
         
         // creo servidor
         Javalin app = Javalin.create(config -> {
@@ -53,6 +54,18 @@ public class App {
                     get(productoresControlador::modificar);
                     post(productoresControlador::actualizar);
                     delete(productoresControlador::borrar);
+                });
+            });
+            path("lotes", () -> {
+                get(lotesControlador::listar);
+                post(lotesControlador::crear);
+                path("nuevo", () -> {
+                    get(lotesControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(lotesControlador::modificar);
+                    post(lotesControlador::actualizar);
+                    delete(lotesControlador::borrar);
                 });
             });
         });

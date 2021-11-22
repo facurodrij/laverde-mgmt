@@ -3,7 +3,7 @@ public final class JteheadGenerated {
 	public static final String JTE_NAME = "tag/head.jte";
 	public static final int[] JTE_LINE_INFO = {7,7,7,7,7,7,9,11,13,16,22,24,26,36};
 	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor) {
-		jteOutput.writeContent("<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n  <title>AdminLTE 3 | Collapsed Sidebar</title>\r\n\r\n  ");
+		jteOutput.writeContent("<!DOCTYPE html>\r\n<html lang=\"en\">\r\n<head>\r\n  <meta charset=\"utf-8\">\r\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\r\n  <title>LaVerdeSA</title>\r\n\r\n  ");
 		jteOutput.writeContent("\r\n  <link rel=\"stylesheet\" href=\"https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback\">\r\n  ");
 		jteOutput.writeContent("\r\n  <link rel=\"stylesheet\" href=\"/plugins/fontawesome-free/css/all.min.css\">\r\n  ");
 		jteOutput.writeContent("\r\n  <link rel=\"stylesheet\" href=\"/plugins/adminlte/css/adminlte.css\">\r\n  ");

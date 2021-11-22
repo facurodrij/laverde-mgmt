@@ -19,6 +19,14 @@
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="/lotes" class="nav-link">
+              <i class="nav-icon fas fa-border-all"></i>
+              <p>
+                Lotes
+              </p>
+            </a>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

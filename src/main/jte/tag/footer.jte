@@ -25,9 +25,5 @@
                 });
             });
         </script>
-
-        <!-- Mis funciones -->
-        <script src="/js/productores.js"></script>
-
     </body>
 </html>
