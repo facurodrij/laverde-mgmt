@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 import edu.unam.jte.paginas.ModeloLotes;
-import edu.unam.jte.paginas.ModeloProductores;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Lote;
 import edu.unam.jte.modelos.Productor;
@@ -27,7 +26,7 @@ public class LotesControlador {
     }
 
     public void nuevo(Context ctx) throws SQLException {
-        var modelo = new ModeloProductores();
+        var modelo = new ModeloLote();
         modelo.productores = repositorio.buscarTodos(Productor.class);
         ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));        
     }
@@ -58,6 +57,7 @@ public class LotesControlador {
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloLote();
         modelo.lote = this.repositorio.buscar(Lote.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        modelo.productores = repositorio.buscarTodos(Productor.class);
         ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
     }
 
@@ -68,7 +68,7 @@ public class LotesControlador {
         punto1[1] = ctx.formParamAsClass("punto1Y", Double.class).get();
         punto2[0] = ctx.formParamAsClass("punto2X", Double.class).get();
         punto2[1] = ctx.formParamAsClass("punto2Y", Double.class).get();
-        var productor = ctx.formParamAsClass("productor", Productor.class).get();
+        Productor productor = this.repositorio.buscar(Productor.class,(ctx.formParamAsClass("productor", Integer.class).get()));
         
         Lote lote = this.repositorio.buscar(Lote.class,(ctx.pathParamAsClass("id", Integer.class).get()));
         if (lote != null) {

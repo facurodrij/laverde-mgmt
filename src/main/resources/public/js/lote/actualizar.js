@@ -16,7 +16,7 @@ $(document).ready(function () {
         })
         .done(function() {
             alert("Lote actualizado correctamente.");
-            location.href="/productores";
+            location.href="/lotes";
         })
         .fail(function() {
             alert("Ha ocurrido un Error");

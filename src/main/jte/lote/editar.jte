@@ -64,6 +64,22 @@
                                 <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto2Y" value="${(modelo.lote.getPunto2())[1]}" required/>
                             </div>                            
                         </div>
+                        <div class="form-group row">
+                            <div class="col-9 input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Productor</span>
+                                </div>
+                                <select class="form-control" id="productor" required>
+                                    @for (var productor : modelo.productores)
+                                      @if (productor.getIdProductor() == modelo.lote.getProductor().getIdProductor())
+                                        <option value="${productor.getIdProductor()}" selected>${productor.toString()}</option>
+                                      @else
+                                        <option value="${productor.getIdProductor()}">${productor.toString()}</option>
+                                      @endif  
+                                    @endfor
+                                </select>
+                            </div>
+                        </div>
                     </div>
                     <!-- /.card-body -->
                     <div class="card-footer">
