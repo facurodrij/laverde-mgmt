@@ -20,9 +20,8 @@ import static io.javalin.apibuilder.ApiBuilder.*;
  * 
  */
 public class App {
-    
-    
-    /** 
+
+    /**
      * @param args argumento que recibe la aplicación
      */
     public static void main(String[] args) {
@@ -33,16 +32,17 @@ public class App {
         var Repositorio = new Repositorio(emf);
         var productoresControlador = new ProductoresControlador(Repositorio);
         var lotesControlador = new LotesControlador(Repositorio);
-        
+        var cuadrosControladores = new CuadrosControlador(Repositorio);
+
         // creo servidor
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public", Location.CLASSPATH);
             config.enableCorsForAllOrigins();
-        })
-        .exception(Exception.class, (e, ctx) -> { ctx.status(404); })
-        .start(7000);
+        }).exception(Exception.class, (e, ctx) -> {
+            ctx.status(404);
+        }).start(7000);
 
-        //defino rutas
+        // defino rutas
         app.routes(() -> {
             path("productores", () -> {
                 get(productoresControlador::listar);
@@ -68,14 +68,25 @@ public class App {
                     delete(lotesControlador::borrar);
                 });
             });
+            path("cuadros", () -> {
+                get(cuadrosControladores::listar);
+                post(cuadrosControladores::crear);
+                path("nuevo", () -> {
+                    get(cuadrosControladores::nuevo);
+                });
+                path("{id}", () -> {
+                    get(cuadrosControladores::modificar);
+                    post(cuadrosControladores::actualizar);
+                    delete(cuadrosControladores::borrar);
+                });
+            });
         });
 
         app.get("/", App::mostrarIndex); // muestra el index
         app.post("/", App::validarUsuario); // "valida usuario"
     }
 
-    
-    /** 
+    /**
      * @param ctx Contexto de la petición
      */
     private static void mostrarIndex(Context ctx) {
@@ -89,17 +100,17 @@ public class App {
         ctx.render("index.jte", Collections.singletonMap("modelo", modelo));
     }
 
-    /** 
+    /**
      * @param ctx Contexto de la petición
      */
     private static void validarUsuario(Context ctx) {
         // obtengo valor enviado en el formulario
         var valor = ctx.formParamAsClass("nombreUsuario", String.class).get();
-        // creo el cookie (antes se debe validar sobre la base de datos o alguna otra forma)
+        // creo el cookie (antes se debe validar sobre la base de datos o alguna otra
+        // forma)
         // recibo el elemento y hago un trim para guardarlo en el cookie
         ctx.cookie("nombreUsuario", valor.trim());
-        // redirecciono a / 
+        // redirecciono a /
         ctx.redirect("/");
     }
 }
-

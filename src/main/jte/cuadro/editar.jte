@@ -1,4 +1,4 @@
-@param edu.unam.jte.paginas.ModeloLote modelo
+@param edu.unam.jte.paginas.ModeloCuadro modelo
 
 @tag.head()
 
@@ -11,13 +11,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Lotes</h1>
+          <h1>Cuadros</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="/lotes">Lotes</a></li>
-            <li class="breadcrumb-item active">${modelo.lote.getIdLote()}</li>
+            <li class="breadcrumb-item"><a href="/cuadros">Cuadros</a></li>
+            <li class="breadcrumb-item active">${modelo.cuadro.getIdCuadro()}</li>
           </ol>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Editar Lote</h3>
+              <h3 class="card-title">Editar Cuadro</h3>
 
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -43,42 +43,29 @@
                 </button>
               </div>
             </div>
-            <form action="/lotes/${modelo.lote.getIdLote()}" method="post" id="lote">
-              <input class="form-control" type="hidden" id="idLote" value="${modelo.lote.getIdLote()}" />
+            <form action="/cuadros/${modelo.cuadro.getIdCuadro()}" method="post" id="cuadro">
+              <input class="form-control" type="hidden" id="idCuadro" value="${modelo.cuadro.getIdCuadro()}" />
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-9 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Punto 1</span>
+                      <span class="input-group-text">Descripcion</span>
                     </div>
-                    <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto1X"
-                      value="${(modelo.lote.getPunto1())[0]}" required />
-                    <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto1Y"
-                      value="${(modelo.lote.getPunto1())[1]}" required />
+                    <input class="form-control" type="textarea" placeholder="Ingrese la descripcion" id="descripcion"
+                      value="${modelo.cuadro.getDescripcion()}" required />
                   </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-9 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Punto 2</span>
+                      <span class="input-group-text">Lote</span>
                     </div>
-                    <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto2X"
-                      value="${(modelo.lote.getPunto2())[0]}" required />
-                    <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto2Y"
-                      value="${(modelo.lote.getPunto2())[1]}" required />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-9 input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Productor</span>
-                    </div>
-                    <select class="form-control" id="productor" required>
-                      @for (var productor : modelo.productores)
-                      @if (productor.getIdProductor() == modelo.lote.getProductor().getIdProductor())
-                      <option value="${productor.getIdProductor()}" selected>${productor.toString()}</option>
+                    <select class="form-control" id="lote" required>
+                      @for (var lote : modelo.lotes)
+                      @if (lote.getIdLote() == modelo.cuadro.getLote().getIdLote())
+                      <option value="${lote.getIdLote()}" selected>${lote.toString()}</option>
                       @else
-                      <option value="${productor.getIdProductor()}">${productor.toString()}</option>
+                      <option value="${lote.getIdLote()}">${lote.toString()}</option>
                       @endif
                       @endfor
                     </select>
@@ -102,6 +89,6 @@
 </div>
 <!-- /.content-wrapper -->
 
-<script src="/js/lote/actualizar.js"></script>
+<script src="/js/cuadro/actualizar.js"></script>
 
 @tag.footer()

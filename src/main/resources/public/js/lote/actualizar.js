@@ -12,17 +12,17 @@ $(document).ready(function () {
 
         var url = $(this).attr("action");
 
-        $.post(url,formData,function(){
+        $.post(url, formData, function () {
         })
-        .done(function() {
-            alert("Lote actualizado correctamente.");
-            location.href="/lotes";
-        })
-        .fail(function() {
-            alert("Ha ocurrido un Error");
-        })
-        .always(function() {
-            
-        });
+            .done(function () {
+                alert("Lote actualizado correctamente.");
+                location.href = "/lotes";
+            })
+            .fail(function () {
+                alert("Ha ocurrido un Error");
+            })
+            .always(function () {
+
+            });
     });
 });

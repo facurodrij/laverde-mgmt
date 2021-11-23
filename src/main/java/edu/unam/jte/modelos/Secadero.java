@@ -22,11 +22,12 @@ public class Secadero {
 
     public Secadero() {
         this.setCuit(0);
-        this.setRazonSocial("");;
+        this.setRazonSocial("");
+        ;
         this.cosechas = new ArrayList<>();
     }
 
-    public Secadero (long cuit, String razonSocial) {
+    public Secadero(long cuit, String razonSocial) {
         this.setCuit(cuit);
         this.setRazonSocial(razonSocial);
         this.cosechas = new ArrayList<>();
@@ -68,6 +69,7 @@ public class Secadero {
 
     @Override
     public final String toString() {
-        return Integer.toString(this.getIdSecadero()) + ". " + Long.toString(this.getCuit()) + ", " + this.getRazonSocial();
+        return Integer.toString(this.getIdSecadero()) + ". " + Long.toString(this.getCuit()) + ", "
+                + this.getRazonSocial();
     }
 }

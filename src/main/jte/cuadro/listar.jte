@@ -1,5 +1,5 @@
-@import edu.unam.jte.paginas.ModeloLotes
-@param ModeloLotes modelo
+@import edu.unam.jte.paginas.ModeloCuadros
+@param ModeloCuadros modelo
 
 @tag.head()
 
@@ -12,12 +12,12 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Lotes</h1>
+          <h1>Cuadros</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-            <li class="breadcrumb-item active">Lotes</li>
+            <li class="breadcrumb-item active">Cuadros</li>
           </ol>
         </div>
       </div>
@@ -32,7 +32,7 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Lista de Lotes</h3>
+              <h3 class="card-title">Lista de Cuadros</h3>
 
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
@@ -44,8 +44,8 @@
               </div>
             </div>
             <div class="card-body">
-              <a href="/lotes/nuevo" class="btn btn-primary mb-3">
-                <i class="fas fa-plus"></i> Nuevo lote
+              <a href="/cuadros/nuevo" class="btn btn-primary mb-3">
+                <i class="fas fa-plus"></i> Nuevo cuadro
               </a>
               <a href="/" type="button" class="btn btn-secondary mb-3"> Volver </a>
               <div class="table-responsive">
@@ -53,25 +53,25 @@
                   <thead class="bg-light">
                     <tr>
                       <th scope="col" style="width: 10%;">#</th>
-                      <th scope="col" style="width: 15%;">Punto 1</th>
-                      <th scope="col" style="width: 15%;">Punto 2</th>
-                      <th scope="col" style="width: 50%;">Productor</th>
+                      <th scope="col" style="width: 15%;">Descripcion</th>
+                      <th scope="col" style="width: 15%;">Lote</th>
                       <th scope="col" style="width: 10%;">Opciones</th>
                     </tr>
                   </thead>
 
                   <tbody>
-                    @for (var lote : modelo.lotes)
+                    @for (var cuadro : modelo.cuadros)
                     <tr>
-                      <td scope="row">${lote.getIdLote()}</td>
-                      <td>${lote.punto1_ToString()}</td>
-                      <td>${lote.punto2_ToString()}</td>
-                      <td>${lote.getProductor().toString()}</td>
+                      <td scope="row">${cuadro.getIdCuadro()}</td>
+                      <td>${cuadro.getDescripcion()}</td>
+                      <td>${cuadro.getLote().toString()}</td>
                       <td>
-                        <a type="button" class="btn btn-warning btn-xs no-gutters" href="/lotes/${lote.getIdLote()}">
+                        <a type="button" class="btn btn-warning btn-xs no-gutters"
+                          href="/cuadros/${cuadro.getIdCuadro()}">
                           <i class="fas fa-edit"></i>
                         </a>
-                        <a type="button" class="btn btn-danger btn-xs no-gutters" onClick="borrar(${lote.getIdLote()})">
+                        <a type="button" class="btn btn-danger btn-xs no-gutters"
+                          onClick="borrar(${cuadro.getIdCuadro()})">
                           <i class="fas fa-trash-alt"></i>
                         </a>
                       </td>
@@ -91,6 +91,6 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<script src="/js/lote/borrar.js"></script>
+<script src="/js/cuadro/borrar.js"></script>
 
 @tag.footer()

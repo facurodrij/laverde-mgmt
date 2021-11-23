@@ -10,8 +10,6 @@ import edu.unam.jte.modelos.Lote;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloLote;
 
-
-
 public class LotesControlador {
     private Repositorio repositorio;
 
@@ -21,14 +19,14 @@ public class LotesControlador {
 
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloLotes();
-        modelo.lotes = repositorio.buscarTodos(Lote.class);     
+        modelo.lotes = repositorio.buscarTodos(Lote.class);
         ctx.render("lote/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) throws SQLException {
         var modelo = new ModeloLote();
         modelo.productores = repositorio.buscarTodos(Productor.class);
-        ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));        
+        ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws SQLException {
@@ -38,25 +36,26 @@ public class LotesControlador {
         punto1[1] = ctx.formParamAsClass("punto1Y", Double.class).get();
         punto2[0] = ctx.formParamAsClass("punto2X", Double.class).get();
         punto2[1] = ctx.formParamAsClass("punto2Y", Double.class).get();
-        Productor productor = this.repositorio.buscar(Productor.class,(ctx.formParamAsClass("productor", Integer.class).get()));
-        
+        var productor = this.repositorio.buscar(Productor.class,
+                (ctx.formParamAsClass("productor", Integer.class).get()));
+
         Lote lote = new Lote(punto1, punto2, productor);
 
         this.repositorio.iniciarTransaccion();
         try {
             this.repositorio.insertar(lote);
             this.repositorio.confirmarTransaccion();
-        } catch(Exception e) {
+        } catch (Exception e) {
             System.out.println(e);
             this.repositorio.descartarTransaccion();
         }
-        
-        ctx.redirect("/lotes");        
+
+        ctx.redirect("/lotes");
     }
 
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloLote();
-        modelo.lote = this.repositorio.buscar(Lote.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        modelo.lote = this.repositorio.buscar(Lote.class, (ctx.pathParamAsClass("id", Integer.class).get()));
         modelo.productores = repositorio.buscarTodos(Productor.class);
         ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
     }
@@ -68,9 +67,10 @@ public class LotesControlador {
         punto1[1] = ctx.formParamAsClass("punto1Y", Double.class).get();
         punto2[0] = ctx.formParamAsClass("punto2X", Double.class).get();
         punto2[1] = ctx.formParamAsClass("punto2Y", Double.class).get();
-        Productor productor = this.repositorio.buscar(Productor.class,(ctx.formParamAsClass("productor", Integer.class).get()));
-        
-        Lote lote = this.repositorio.buscar(Lote.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        var productor = this.repositorio.buscar(Productor.class,
+                (ctx.formParamAsClass("productor", Integer.class).get()));
+
+        Lote lote = this.repositorio.buscar(Lote.class, (ctx.pathParamAsClass("id", Integer.class).get()));
         if (lote != null) {
             lote.setPunto1(punto1);
             lote.setPunto2(punto2);
@@ -79,23 +79,23 @@ public class LotesControlador {
             try {
                 this.repositorio.modificar(lote);
                 this.repositorio.confirmarTransaccion();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(e);
                 this.repositorio.descartarTransaccion();
             }
         }
 
-        ctx.redirect("/lotes");        
+        ctx.redirect("/lotes");
     }
 
     public void borrar(Context ctx) throws SQLException {
-        Lote lote = this.repositorio.buscar(Lote.class,(ctx.pathParamAsClass("id", Integer.class).get()));
+        Lote lote = this.repositorio.buscar(Lote.class, (ctx.pathParamAsClass("id", Integer.class).get()));
         if (lote != null) {
             this.repositorio.iniciarTransaccion();
             try {
                 this.repositorio.eliminar(Lote.class, lote);
                 this.repositorio.confirmarTransaccion();
-            } catch(Exception e) {
+            } catch (Exception e) {
                 System.out.println(e);
                 this.repositorio.descartarTransaccion();
             }

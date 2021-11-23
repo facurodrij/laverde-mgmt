@@ -12,18 +12,20 @@ import jakarta.persistence.OneToMany;
 @Entity
 public class Productor {
 
-    /* Un ID es necesario en caso de que el CUIT/CUIL ingresado haya sido erroneo, el ID va a seguir permitiendo identificar
-    de forma unica el registro. */
+    /*
+     * Un ID es necesario en caso de que el CUIT/CUIL ingresado haya sido erroneo,
+     * el ID va a seguir permitiendo identificar de forma unica el registro.
+     */
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int idProductor;
 
-    @Column(unique=true)
+    @Column(unique = true)
     private long cuit;
 
     private String apellidos;
     private String nombres;
-  
+
     @OneToMany(targetEntity = Lote.class, mappedBy = "productor")
     private List<Lote> lotes = new ArrayList<>();
 
@@ -39,7 +41,7 @@ public class Productor {
         this.setApellidos(apellidos);
         this.setNombres(nombres);
     }
-    
+
     public int getIdProductor() {
         return idProductor;
     }
@@ -83,10 +85,10 @@ public class Productor {
     @Override
     public int hashCode() {
         long resultado = 0;
-        for (int i=10; i > 0; i--) {
-            resultado += ((cuit % (10^i)) / (10^(i-1)));
+        for (int i = 10; i > 0; i--) {
+            resultado += ((cuit % (10 ^ i)) / (10 ^ (i - 1)));
         }
-        return (int)resultado;
+        return (int) resultado;
     }
 
     @Override
@@ -105,6 +107,7 @@ public class Productor {
 
     @Override
     public final String toString() {
-        return Integer.toString(this.getIdProductor()) + "- CUIT: " + Long.toString(this.getCuit()) + ". Nombre completo: " + this.getApellidos() + ", " + this.getNombres();
+        return Integer.toString(this.getIdProductor()) + "- CUIT: " + Long.toString(this.getCuit())
+                + ". Nombre completo: " + this.getApellidos() + ", " + this.getNombres();
     }
 }

@@ -3,24 +3,24 @@ $(document).ready(function () {
         event.preventDefault();
 
         var formData = {
-        cuit: $("#cuit").val(),
-        nombres: $("#nombres").val(),
-        apellidos: $("#apellidos").val(),
+            cuit: $("#cuit").val(),
+            nombres: $("#nombres").val(),
+            apellidos: $("#apellidos").val(),
         };
 
         var url = $(this).attr("action");
 
-        $.post(url,formData,function(){
+        $.post(url, formData, function () {
         })
-        .done(function() {
-            alert("Productor actualizado correctamente.");
-            location.href="/productores";
-        })
-        .fail(function() {
-            alert("Ha ocurrido un Error, Verifique el campo CUIT.");
-        })
-        .always(function() {
-            
-        });
+            .done(function () {
+                alert("Productor actualizado correctamente.");
+                location.href = "/productores";
+            })
+            .fail(function () {
+                alert("Ha ocurrido un Error, Verifique el campo CUIT.");
+            })
+            .always(function () {
+
+            });
     });
 });

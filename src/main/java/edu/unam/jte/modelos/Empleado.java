@@ -116,6 +116,7 @@ public class Empleado {
 
     @Override
     public final String toString() {
-        return Long.toString(this.getIdEmpleado()) + ". " + Long.toString(this.getDni()) + " " + this.getApellidos() + ", " + this.getNombres();
+        return Long.toString(this.getIdEmpleado()) + ". " + Long.toString(this.getDni()) + " " + this.getApellidos()
+                + ", " + this.getNombres();
     }
 }

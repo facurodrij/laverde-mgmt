@@ -3,11 +3,8 @@ $(document).ready(function () {
         event.preventDefault();
 
         var formData = {
-            punto1X: $("#punto1X").val(),
-            punto1Y: $("#punto1Y").val(),
-            punto2X: $("#punto2X").val(),
-            punto2Y: $("#punto2Y").val(),
-            productor: $("#productor").val(),
+            descripcion: $("#descripcion").val(),
+            lote: $("#lote").val()
         };
 
         var url = $(this).attr("action");
@@ -15,8 +12,8 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Lote agregado correctamente.");
-                location.href = "/lotes";
+                alert("Cuadro actualizado correctamente.");
+                location.href = "/cuadros";
             })
             .fail(function () {
                 alert("Ha ocurrido un Error");

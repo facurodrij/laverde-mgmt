@@ -64,6 +64,7 @@ public class Lote {
         this.puntos = this.toString();
         return this.puntos;
     }
+
     public List<Cuadro> getCuadros() {
         return cuadros;
     }
@@ -90,9 +91,10 @@ public class Lote {
         this.puntos = this.toString();
     }
 
-
     @Override
     public final String toString() {
-        return Integer.toString(this.getIdLote()) + ". (" + Double.toString(this.punto1[0]) + "," + Double.toString(this.punto1[1]) + ") ; (" + Double.toString(this.punto2[0]) + "," + Double.toString(this.punto2[1]) + ")";
+        return Integer.toString(this.getIdLote()) + ". (" + Double.toString(this.punto1[0]) + ","
+                + Double.toString(this.punto1[1]) + ") ; (" + Double.toString(this.punto2[0]) + ","
+                + Double.toString(this.punto2[1]) + ")";
     }
 }
