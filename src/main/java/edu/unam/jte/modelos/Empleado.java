@@ -3,6 +3,7 @@ package edu.unam.jte.modelos;
 import java.util.*;
 import java.time.LocalDate;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -18,13 +19,19 @@ public class Empleado {
     @ManyToMany(targetEntity = Cosecha.class, mappedBy = "empleados")
     private List<Cosecha> cosechas;
 
+    @Column(unique = true)
     private String legajo;
+
+    @Column(unique = true)
     private Long dni;
+
+    @Column(unique = true)
+    private Long cuil;
+
     private String apellidos;
     private String nombres;
     private LocalDate ingreso;
     private LocalDate nacimiento;
-    private Long cuil;
 
     public Empleado() {
         this.setLegajo("");
