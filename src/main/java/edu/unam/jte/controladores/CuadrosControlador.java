@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.Collections;
 
 import edu.unam.jte.paginas.ModeloCuadro;
-import edu.unam.jte.paginas.ModeloCuadros;
+// import edu.unam.jte.paginas.ModeloCuadros;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Cuadro;
 import edu.unam.jte.modelos.Lote;
@@ -20,7 +20,7 @@ public class CuadrosControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloCuadros();
+        var modelo = new ModeloCuadro();
         modelo.cuadros = repositorio.buscarTodos(Cuadro.class);
         if (exception == null) {
             modelo.exception = exception;

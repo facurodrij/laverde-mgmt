@@ -1,5 +1,4 @@
-@import edu.unam.jte.paginas.ModeloLotes
-@param ModeloLotes modelo
+@param edu.unam.jte.paginas.ModeloLote modelo
 
 @tag.head()
 

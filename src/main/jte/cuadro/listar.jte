@@ -1,5 +1,4 @@
-@import edu.unam.jte.paginas.ModeloCuadros
-@param ModeloCuadros modelo
+@param edu.unam.jte.paginas.ModeloCuadro modelo
 
 @tag.head()
 

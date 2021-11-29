@@ -4,7 +4,7 @@ import io.javalin.http.Context;
 import java.sql.SQLException;
 import java.util.Collections;
 
-import edu.unam.jte.paginas.ModeloLotes;
+// import edu.unam.jte.paginas.ModeloLotes;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Lote;
 import edu.unam.jte.modelos.Productor;
@@ -20,7 +20,7 @@ public class LotesControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloLotes();
+        var modelo = new ModeloLote();
         modelo.lotes = repositorio.buscarTodos(Lote.class);
         if (exception == null) {
             modelo.exception = exception;

@@ -1,9 +1,8 @@
 package gg.jte.generated.ondemand.productor;
-import edu.unam.jte.paginas.ModeloProductores;
 public final class JtelistarGenerated {
 	public static final String JTE_NAME = "productor/listar.jte";
-	public static final int[] JTE_LINE_INFO = {0,0,1,1,1,3,3,3,5,5,7,9,23,23,25,25,25,30,30,31,34,39,68,68,70,70,70,71,71,71,72,72,72,73,73,73,76,76,76,80,80,80,85,85,90,92,97,99,102,102};
-	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, ModeloProductores modelo) {
+	public static final int[] JTE_LINE_INFO = {0,0,0,0,2,2,2,4,4,6,8,22,22,24,24,24,29,29,30,33,38,67,67,69,69,69,70,70,70,71,71,71,72,72,72,75,75,75,79,79,79,84,84,89,91,96,98,101,101};
+	public static void render(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, edu.unam.jte.paginas.ModeloProductor modelo) {
 		jteOutput.writeContent("\r\n");
 		gg.jte.generated.ondemand.tag.JteheadGenerated.render(jteOutput, jteHtmlInterceptor);
 		jteOutput.writeContent("\r\n\r\n");
@@ -50,7 +49,7 @@ public final class JtelistarGenerated {
 		gg.jte.generated.ondemand.tag.JtefooterGenerated.render(jteOutput, jteHtmlInterceptor);
 	}
 	public static void renderMap(gg.jte.html.HtmlTemplateOutput jteOutput, gg.jte.html.HtmlInterceptor jteHtmlInterceptor, java.util.Map<String, Object> params) {
-		ModeloProductores modelo = (ModeloProductores)params.get("modelo");
+		edu.unam.jte.paginas.ModeloProductor modelo = (edu.unam.jte.paginas.ModeloProductor)params.get("modelo");
 		render(jteOutput, jteHtmlInterceptor, modelo);
 	}
 }

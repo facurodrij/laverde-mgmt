@@ -30,14 +30,24 @@ public class Cosecha {
     @ManyToOne(targetEntity = Secadero.class)
     private Secadero secadero;
 
+    public Cosecha(){
+        this.setPesoEntrega(0);
+        this.setTiempoEntrega(null);
+        this.setPesoRegistro(0);
+        this.setTiempoRegistro(null);
+        this.setCuadros(null);
+        this.setEmpleados(null);
+        this.setSecadero(null);
+    }
+
     public Cosecha(float pesoEntrega, LocalDate tiempoEntrega, float pesoRegistro, LocalDate tiempoRegistro, List<Cuadro> cuadros, List<Empleado> empleados, Secadero secadero) {
-        this.pesoEntrega = pesoEntrega;
-        this.tiempoEntrega = tiempoEntrega;
-        this.pesoRegistro = pesoRegistro;
-        this.tiempoRegistro = tiempoRegistro;
-        this.cuadros = cuadros;
-        this.empleados = empleados;
-        this.secadero = secadero;
+        this.setPesoEntrega(pesoEntrega);
+        this.setTiempoEntrega(tiempoEntrega);
+        this.setPesoRegistro(pesoRegistro);
+        this.setTiempoRegistro(tiempoRegistro);
+        this.setCuadros(cuadros);
+        this.setEmpleados(empleados);
+        this.setSecadero(secadero);
     }
 
     public int getIdCosecha() {

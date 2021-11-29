@@ -1,5 +1,4 @@
-@import edu.unam.jte.paginas.ModeloProductores
-@param ModeloProductores modelo
+@param edu.unam.jte.paginas.ModeloLote modelo
 
 @tag.head()
 
@@ -70,14 +69,14 @@
                     </div>
                     @if (!modelo.productores.isEmpty())
                     <select class="form-control" id="productor" required>
-                      <option hidden selected>Seleccione una opción</option>
+                      <option value="" hidden selected>Seleccione una opción</option>
                       @for (var productor : modelo.productores)
                       <option value="${productor.getIdProductor()}">${productor.toString()}</option>
                       @endfor
                     </select>
                     @else
                     <select class="form-control" id="productor" disabled>
-                      <option hidden selected>No hay productores</option>
+                      <option value="" hidden selected>No hay productores</option>
                     </select>
                     @endif
                   </div>

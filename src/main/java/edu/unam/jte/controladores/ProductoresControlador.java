@@ -4,7 +4,7 @@ import io.javalin.http.Context;
 import java.sql.SQLException;
 import java.util.Collections;
 
-import edu.unam.jte.paginas.ModeloProductores;
+// import edu.unam.jte.paginas.ModeloProductores;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloProductor;
@@ -20,7 +20,7 @@ public class ProductoresControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloProductores();
+        var modelo = new ModeloProductor();
         modelo.productores = repositorio.buscarTodos(Productor.class);
         if (exception == null) {
             modelo.exception = exception;

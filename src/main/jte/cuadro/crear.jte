@@ -1,5 +1,4 @@
-@import edu.unam.jte.paginas.ModeloLotes
-@param ModeloLotes modelo
+@param edu.unam.jte.paginas.ModeloCuadro modelo
 
 @tag.head()
 
@@ -61,14 +60,14 @@
                     </div>
                     @if (!modelo.lotes.isEmpty())
                     <select class="form-control" id="lote" required>
-                      <option hidden selected>Seleccione una opción</option>
+                      <option value="" hidden selected>Seleccione una opción</option>
                       @for (var lote : modelo.lotes)
                       <option value="${lote.getIdLote()}">${lote.toString()}</option>
                       @endfor
                     </select>
                     @else
                     <select class="form-control" id="lote" disabled>
-                      <option hidden selected>No hay lotes</option>
+                      <option value="" hidden selected>No hay lotes</option>
                     </select>
                     @endif
                   </div>

@@ -1,5 +1,4 @@
-@import edu.unam.jte.paginas.ModeloProductores
-@param ModeloProductores modelo
+@param edu.unam.jte.paginas.ModeloProductor modelo
 
 @tag.head()
 
