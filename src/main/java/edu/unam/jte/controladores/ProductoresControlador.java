@@ -13,6 +13,8 @@ public class ProductoresControlador {
 
     private Repositorio repositorio;
 
+    private Exception exception = null;
+
     public ProductoresControlador(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
@@ -20,11 +22,26 @@ public class ProductoresControlador {
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloProductores();
         modelo.productores = repositorio.buscarTodos(Productor.class);
-        ctx.render("productor/listar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("productor/listar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("productor/listar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void nuevo(Context ctx) throws SQLException {
-        ctx.render("productor/crear.jte", Collections.singletonMap("modelo", null));
+        var modelo = new ModeloProductor();
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("productor/crear.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("productor/crear.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void crear(Context ctx) throws SQLException {
@@ -40,6 +57,7 @@ public class ProductoresControlador {
             this.repositorio.confirmarTransaccion();
         } catch (Exception e) {
             System.out.println(e);
+            exception = e;
             this.repositorio.descartarTransaccion();
         }
 
@@ -49,7 +67,14 @@ public class ProductoresControlador {
     public void modificar(Context ctx) throws SQLException {
         var modelo = new ModeloProductor();
         modelo.productor = this.repositorio.buscar(Productor.class, (ctx.pathParamAsClass("id", Integer.class).get()));
-        ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void actualizar(Context ctx) throws SQLException {
@@ -70,6 +95,7 @@ public class ProductoresControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }
@@ -87,6 +113,7 @@ public class ProductoresControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }

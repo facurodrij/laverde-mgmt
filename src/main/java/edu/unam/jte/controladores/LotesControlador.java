@@ -13,6 +13,8 @@ import edu.unam.jte.paginas.ModeloLote;
 public class LotesControlador {
     private Repositorio repositorio;
 
+    private Exception exception = null;
+
     public LotesControlador(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
@@ -20,13 +22,27 @@ public class LotesControlador {
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloLotes();
         modelo.lotes = repositorio.buscarTodos(Lote.class);
-        ctx.render("lote/listar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("lote/listar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("lote/listar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void nuevo(Context ctx) throws SQLException {
         var modelo = new ModeloLote();
         modelo.productores = repositorio.buscarTodos(Productor.class);
-        ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void crear(Context ctx) throws SQLException {
@@ -47,6 +63,7 @@ public class LotesControlador {
             this.repositorio.confirmarTransaccion();
         } catch (Exception e) {
             System.out.println(e);
+            exception = e;
             this.repositorio.descartarTransaccion();
         }
 
@@ -57,7 +74,14 @@ public class LotesControlador {
         var modelo = new ModeloLote();
         modelo.lote = this.repositorio.buscar(Lote.class, (ctx.pathParamAsClass("id", Integer.class).get()));
         modelo.productores = repositorio.buscarTodos(Productor.class);
-        ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void actualizar(Context ctx) throws SQLException {
@@ -81,6 +105,7 @@ public class LotesControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }
@@ -97,6 +122,7 @@ public class LotesControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }

@@ -13,6 +13,8 @@ import edu.unam.jte.modelos.Lote;
 public class CuadrosControlador {
     private Repositorio repositorio;
 
+    private Exception exception = null;
+
     public CuadrosControlador(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
@@ -20,13 +22,28 @@ public class CuadrosControlador {
     public void listar(Context ctx) throws SQLException {
         var modelo = new ModeloCuadros();
         modelo.cuadros = repositorio.buscarTodos(Cuadro.class);
-        ctx.render("cuadro/listar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("cuadro/listar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("cuadro/listar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void nuevo(Context ctx) throws SQLException {
         var modelo = new ModeloCuadro();
         modelo.lotes = repositorio.buscarTodos(Lote.class);
-        ctx.render("cuadro/crear.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("cuadro/crear.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("cuadro/crear.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
+        
     }
 
     public void crear(Context ctx) throws SQLException {
@@ -41,6 +58,7 @@ public class CuadrosControlador {
             this.repositorio.confirmarTransaccion();
         } catch (Exception e) {
             System.out.println(e);
+            exception = e;
             this.repositorio.descartarTransaccion();
         }
 
@@ -51,7 +69,14 @@ public class CuadrosControlador {
         var modelo = new ModeloCuadro();
         modelo.cuadro = this.repositorio.buscar(Cuadro.class, (ctx.pathParamAsClass("id", Integer.class).get()));
         modelo.lotes = repositorio.buscarTodos(Lote.class);
-        ctx.render("cuadro/editar.jte", Collections.singletonMap("modelo", modelo));
+        if (exception == null) {
+            modelo.exception = exception;
+            ctx.render("cuadro/editar.jte", Collections.singletonMap("modelo", modelo));
+        } else {
+            modelo.exception = exception;
+            ctx.render("cuadro/editar.jte", Collections.singletonMap("modelo", modelo));
+            exception = null;
+        }
     }
 
     public void actualizar(Context ctx) throws SQLException {
@@ -68,6 +93,7 @@ public class CuadrosControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }
@@ -84,6 +110,7 @@ public class CuadrosControlador {
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
                 System.out.println(e);
+                exception = e;
                 this.repositorio.descartarTransaccion();
             }
         }

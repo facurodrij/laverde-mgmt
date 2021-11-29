@@ -17,7 +17,8 @@ $(document).ready(function () {
                 location.href = "/productores";
             })
             .fail(function () {
-                alert("Ha ocurrido un Error, Verifique el campo CUIT.");
+                alert("Ha ocurrido un Error");
+                location.reload();
             })
             .always(function () {
 

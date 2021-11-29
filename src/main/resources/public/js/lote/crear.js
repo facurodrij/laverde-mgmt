@@ -20,6 +20,7 @@ $(document).ready(function () {
             })
             .fail(function () {
                 alert("Ha ocurrido un Error");
+                location.reload();
             })
             .always(function () {
 

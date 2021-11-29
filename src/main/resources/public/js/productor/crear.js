@@ -16,11 +16,9 @@ $(document).ready(function () {
                 alert("Productor agregado correctamente.");
                 location.href = "/productores";
             })
-            .fail(function (jqXHR, textStatus, errorThrown) {
+            .fail(function () {
                 alert("Ha ocurrido un Error");
-                console.log(jqXHR);
-                console.log(textStatus);
-                console.log(errorThrown);
+                location.reload();
             })
             .always(function () {
 
