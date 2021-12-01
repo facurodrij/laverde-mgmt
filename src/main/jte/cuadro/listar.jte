@@ -1,4 +1,4 @@
-@param edu.unam.jte.paginas.ModeloCuadro modelo
+@param edu.unam.jte.paginas.ModeloCuadros modelo
 
 @tag.head()
 

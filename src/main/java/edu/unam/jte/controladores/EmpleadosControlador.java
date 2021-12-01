@@ -8,6 +8,7 @@ import java.util.Collections;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Empleado;
 import edu.unam.jte.paginas.ModeloEmpleado;
+import edu.unam.jte.paginas.ModeloEmpleados;
 
 public class EmpleadosControlador {
 
@@ -20,7 +21,7 @@ public class EmpleadosControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloEmpleado();
+        var modelo = new ModeloEmpleados();
         modelo.empleados = repositorio.buscarTodos(Empleado.class);
         if (exception == null) {
             modelo.exception = exception;

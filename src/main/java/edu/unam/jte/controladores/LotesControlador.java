@@ -8,6 +8,7 @@ import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Lote;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloLote;
+import edu.unam.jte.paginas.ModeloLotes;
 
 public class LotesControlador {
     private Repositorio repositorio;
@@ -19,7 +20,7 @@ public class LotesControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloLote();
+        var modelo = new ModeloLotes();
         modelo.lotes = repositorio.buscarTodos(Lote.class);
         if (exception == null) {
             modelo.exception = exception;

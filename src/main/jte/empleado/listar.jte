@@ -1,4 +1,4 @@
-@param edu.unam.jte.paginas.ModeloEmpleado modelo
+@param edu.unam.jte.paginas.ModeloEmpleados modelo
 
 @tag.head()
 

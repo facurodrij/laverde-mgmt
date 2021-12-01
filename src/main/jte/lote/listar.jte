@@ -1,4 +1,4 @@
-@param edu.unam.jte.paginas.ModeloLote modelo
+@param edu.unam.jte.paginas.ModeloLotes modelo
 
 @tag.head()
 

@@ -7,6 +7,7 @@ import java.util.Collections;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Productor;
 import edu.unam.jte.paginas.ModeloProductor;
+import edu.unam.jte.paginas.ModeloProductores;
 
 public class ProductoresControlador {
 
@@ -19,7 +20,7 @@ public class ProductoresControlador {
     }
 
     public void listar(Context ctx) throws SQLException {
-        var modelo = new ModeloProductor();
+        var modelo = new ModeloProductores();
         modelo.productores = repositorio.buscarTodos(Productor.class);
         if (exception == null) {
             modelo.exception = exception;
