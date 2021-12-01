@@ -35,6 +35,30 @@
             </p>
           </a>
         </li>
+        <li class="nav-item">
+          <a href="/empleados" class="nav-link">
+            <i class="nav-icon fas fa-id-card"></i>
+            <p>
+              Empleados
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-warehouse"></i>
+            <p>
+              Secaderos
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-seedling"></i>
+            <p>
+              Cosechas
+            </p>
+          </a>
+        </li>
       </ul>
     </nav>
     <!-- /.sidebar-menu -->

@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToMany;
 public class Empleado {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long idEmpleado;
+    private int idEmpleado;
 
     @ManyToMany(targetEntity = Cosecha.class, mappedBy = "empleados")
     private List<Cosecha> cosechas;
@@ -23,10 +23,10 @@ public class Empleado {
     private String legajo;
 
     @Column(unique = true)
-    private Long dni;
+    private long dni;
 
     @Column(unique = true)
-    private Long cuil;
+    private long cuil;
 
     private String apellidos;
     private String nombres;
@@ -43,8 +43,8 @@ public class Empleado {
         this.setCuil((long) 0);
     }
 
-    public Empleado(String legajo, Long dni, String apellidos, String nombres, LocalDate ingreso, LocalDate nacimiento,
-            Long cuil) {
+    public Empleado(String legajo, long dni, String apellidos, String nombres, LocalDate ingreso, LocalDate nacimiento,
+            long cuil) {
         this.setLegajo(legajo);
         this.setDni(dni);
         this.setApellidos(apellidos);
@@ -54,7 +54,7 @@ public class Empleado {
         this.setCuil(cuil);
     }
 
-    public Long getIdEmpleado() {
+    public int getIdEmpleado() {
         return this.idEmpleado;
     }
 
@@ -69,7 +69,7 @@ public class Empleado {
         return this.legajo;
     }
 
-    public Long getDni() {
+    public long getDni() {
         return this.dni;
     }
 
@@ -89,7 +89,7 @@ public class Empleado {
         return this.nacimiento;
     }
 
-    public Long getCuil() {
+    public long getCuil() {
         return this.cuil;
     }
 
@@ -97,7 +97,7 @@ public class Empleado {
         this.legajo = legajo;
     }
 
-    public void setDni(Long i) {
+    public void setDni(long i) {
         this.dni = i;
     }
 
@@ -117,13 +117,13 @@ public class Empleado {
         this.nacimiento = nacimiento;
     }
 
-    public void setCuil(Long i) {
+    public void setCuil(long i) {
         this.cuil = i;
     }
 
     @Override
     public final String toString() {
-        return Long.toString(this.getIdEmpleado()) + ". " + Long.toString(this.getDni()) + " " + this.getApellidos()
+        return Integer.toString(this.getIdEmpleado()) + ". " + Long.toString(this.getDni()) + " " + this.getApellidos()
                 + ", " + this.getNombres();
     }
 }

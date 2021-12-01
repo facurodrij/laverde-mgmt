@@ -4,7 +4,6 @@ import io.javalin.http.Context;
 import java.sql.SQLException;
 import java.util.Collections;
 
-// import edu.unam.jte.paginas.ModeloLotes;
 import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.Lote;
 import edu.unam.jte.modelos.Productor;

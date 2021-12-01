@@ -29,10 +29,11 @@ public class App {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LaVerdeSA");
 
         // repositorios y controladores
-        var Repositorio = new Repositorio(emf);
-        var productoresControlador = new ProductoresControlador(Repositorio);
-        var lotesControlador = new LotesControlador(Repositorio);
-        var cuadrosControladores = new CuadrosControlador(Repositorio);
+        var repositorio = new Repositorio(emf);
+        var productoresControlador = new ProductoresControlador(repositorio);
+        var lotesControlador = new LotesControlador(repositorio);
+        var cuadrosControlador = new CuadrosControlador(repositorio);
+        var empleadosControlador = new EmpleadosControlador(repositorio);
 
         // creo servidor
         Javalin app = Javalin.create(config -> {
@@ -44,6 +45,18 @@ public class App {
 
         // defino rutas
         app.routes(() -> {
+            path("empleados", () -> {
+                get(empleadosControlador::listar);
+                post(empleadosControlador::crear);
+                path("nuevo", () -> {
+                    get(empleadosControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(empleadosControlador::modificar);
+                    post(empleadosControlador::actualizar);
+                    delete(empleadosControlador::borrar);
+                });
+            });
             path("productores", () -> {
                 get(productoresControlador::listar);
                 post(productoresControlador::crear);
@@ -69,15 +82,15 @@ public class App {
                 });
             });
             path("cuadros", () -> {
-                get(cuadrosControladores::listar);
-                post(cuadrosControladores::crear);
+                get(cuadrosControlador::listar);
+                post(cuadrosControlador::crear);
                 path("nuevo", () -> {
-                    get(cuadrosControladores::nuevo);
+                    get(cuadrosControlador::nuevo);
                 });
                 path("{id}", () -> {
-                    get(cuadrosControladores::modificar);
-                    post(cuadrosControladores::actualizar);
-                    delete(cuadrosControladores::borrar);
+                    get(cuadrosControlador::modificar);
+                    post(cuadrosControlador::actualizar);
+                    delete(cuadrosControlador::borrar);
                 });
             });
         });
