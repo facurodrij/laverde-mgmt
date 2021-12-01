@@ -34,6 +34,8 @@ public class App {
         var lotesControlador = new LotesControlador(repositorio);
         var cuadrosControlador = new CuadrosControlador(repositorio);
         var empleadosControlador = new EmpleadosControlador(repositorio);
+        var cosechasControlador = new CosechasControlador(repositorio);
+        var secaderosControlador = new SecaderosControlador(repositorio);
 
         // creo servidor
         Javalin app = Javalin.create(config -> {
@@ -45,6 +47,30 @@ public class App {
 
         // defino rutas
         app.routes(() -> {
+            path("cosechas", () -> {
+                get(cosechasControlador::listar);
+                post(cosechasControlador::crear);
+                path("nuevo", () -> {
+                    get(cosechasControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(cosechasControlador::modificar);
+                    post(cosechasControlador::actualizar);
+                    delete(cosechasControlador::borrar);
+                });
+            });
+            path("cuadros", () -> {
+                get(cuadrosControlador::listar);
+                post(cuadrosControlador::crear);
+                path("nuevo", () -> {
+                    get(cuadrosControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(cuadrosControlador::modificar);
+                    post(cuadrosControlador::actualizar);
+                    delete(cuadrosControlador::borrar);
+                });
+            });
             path("empleados", () -> {
                 get(empleadosControlador::listar);
                 post(empleadosControlador::crear);
@@ -55,18 +81,6 @@ public class App {
                     get(empleadosControlador::modificar);
                     post(empleadosControlador::actualizar);
                     delete(empleadosControlador::borrar);
-                });
-            });
-            path("productores", () -> {
-                get(productoresControlador::listar);
-                post(productoresControlador::crear);
-                path("nuevo", () -> {
-                    get(productoresControlador::nuevo);
-                });
-                path("{id}", () -> {
-                    get(productoresControlador::modificar);
-                    post(productoresControlador::actualizar);
-                    delete(productoresControlador::borrar);
                 });
             });
             path("lotes", () -> {
@@ -81,16 +95,28 @@ public class App {
                     delete(lotesControlador::borrar);
                 });
             });
-            path("cuadros", () -> {
-                get(cuadrosControlador::listar);
-                post(cuadrosControlador::crear);
+            path("productores", () -> {
+                get(productoresControlador::listar);
+                post(productoresControlador::crear);
                 path("nuevo", () -> {
-                    get(cuadrosControlador::nuevo);
+                    get(productoresControlador::nuevo);
                 });
                 path("{id}", () -> {
-                    get(cuadrosControlador::modificar);
-                    post(cuadrosControlador::actualizar);
-                    delete(cuadrosControlador::borrar);
+                    get(productoresControlador::modificar);
+                    post(productoresControlador::actualizar);
+                    delete(productoresControlador::borrar);
+                });
+            });
+            path("secaderos", () -> {
+                get(secaderosControlador::listar);
+                post(secaderosControlador::crear);
+                path("nuevo", () -> {
+                    get(secaderosControlador::nuevo);
+                });
+                path("{id}", () -> {
+                    get(secaderosControlador::modificar);
+                    post(secaderosControlador::actualizar);
+                    delete(secaderosControlador::borrar);
                 });
             });
         });

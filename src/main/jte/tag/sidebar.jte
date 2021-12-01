@@ -44,7 +44,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/secaderos" class="nav-link">
             <i class="nav-icon fas fa-warehouse"></i>
             <p>
               Secaderos
@@ -52,7 +52,7 @@
           </a>
         </li>
         <li class="nav-item">
-          <a href="#" class="nav-link">
+          <a href="/cosechas" class="nav-link">
             <i class="nav-icon fas fa-seedling"></i>
             <p>
               Cosechas
