@@ -52,22 +52,38 @@ public class CosechasControlador {
     }
 
     public void crear(Context ctx) throws SQLException {
-        var pesoEntregra = ctx.formParamAsClass("pesoEntrega", Float.class).get();
+        var pesoEntrega = ctx.formParamAsClass("pesoEntrega", Float.class).get();
         var tiempoEntrega = LocalDate.parse(ctx.formParamAsClass("tiempoEntrega", String.class).get());
         var pesoRegistro = ctx.formParamAsClass("pesoRegistro", Float.class).get();
         var tiempoRegistro = LocalDate.parse(ctx.formParamAsClass("tiempoRegistro", String.class).get());
         var secadero =  this.repositorio.buscar(Secadero.class, (ctx.formParamAsClass("secadero", Integer.class).get()));
-
-        Cosecha cosecha = new Cosecha();
-        this.repositorio.iniciarTransaccion();
+        
         try {
-            this.repositorio.insertar(cosecha);
-            this.repositorio.confirmarTransaccion();
+            var empleado = ctx.formParam("empleado");
+            System.out.println(empleado);
         } catch (Exception e) {
-            System.out.println(e);
-            exception = e;
-            this.repositorio.descartarTransaccion();
+            System.out.println(e); 
         }
+
+        System.out.println(pesoEntrega);
+        System.out.println(tiempoEntrega);
+        System.out.println(pesoRegistro);
+        System.out.println(tiempoRegistro);
+        System.out.println(secadero);
+
+        
+        // var modelo = new ModeloCosecha();
+
+        // Cosecha cosecha = new Cosecha();
+        // this.repositorio.iniciarTransaccion();
+        // try {
+        //     this.repositorio.insertar(cosecha);
+        //     this.repositorio.confirmarTransaccion();
+        // } catch (Exception e) {
+        //     System.out.println(e);
+        //     exception = e;
+        //     this.repositorio.descartarTransaccion();
+        // }
 
         ctx.redirect("/cosechas");
     }

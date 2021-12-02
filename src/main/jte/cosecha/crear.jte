@@ -1,0 +1,152 @@
+@param edu.unam.jte.paginas.ModeloCosecha modelo
+
+@tag.head()
+
+@tag.sidebar()
+
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Cosechas</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/">Inicio</a></li>
+            <li class="breadcrumb-item"><a href="/cosechas">Cosechas</a></li>
+            <li class="breadcrumb-item active">Nuevo</li>
+          </ol>
+        </div>
+      </div>
+      @if (modelo.exception != null)
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+          ${modelo.exception.getCause().getCause().getMessage()}	
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+      @endif
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <!-- Default box -->
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Crear Cosecha</h3>
+            </div>
+            <form action="/cosechas" method="post" id="cosecha">
+              <div class="card-body">
+                <div class="form-group row">
+                  <div class="col-4 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Empleados</span>
+                    </div>
+                    @if (!modelo.empleados.isEmpty())
+                    <select class="form-control" id="empleado" multiple required>
+                      <option value="" hidden selected>Seleccione una opción</option>
+                      @for (var empleado : modelo.empleados)
+                      <option value="${empleado.getIdEmpleado()}">${empleado.toString()}</option>
+                      @endfor
+                    </select>
+                    @else
+                    <select class="form-control" id="empleado" disabled>
+                      <option value="" hidden selected>No hay empleados</option>
+                    </select>
+                    @endif
+                  </div>
+
+                  <div class="col-4 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Cuadros</span>
+                    </div>
+                    @if (!modelo.cuadros.isEmpty())
+                    <select class="form-control" id="cuadro" multiple required>
+                      <option value="" hidden selected>Seleccione una opción</option>
+                      @for (var cuadro : modelo.cuadros)
+                      <option value="${cuadro.getIdCuadro()}">${cuadro.toString()}</option>
+                      @endfor
+                    </select>
+                    @else
+                    <select class="form-control" id="cuadro" disabled>
+                      <option value="" hidden selected>No hay cuadros</option>
+                    </select>
+                    @endif
+                  </div>
+
+                  <div class="col-4 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Secaderos</span>
+                    </div>
+                    @if (!modelo.secaderos.isEmpty())
+                    <select class="form-control" id="secadero" required>
+                      <option value="" hidden selected>Seleccione una opción</option>
+                      @for (var secadero : modelo.secaderos)
+                      <option value="${secadero.getIdSecadero()}">${secadero.toString()}</option>
+                      @endfor
+                    </select>
+                    @else
+                    <select class="form-control" id="secadero" disabled>
+                      <option value="" hidden selected>No hay secaderos</option>
+                    </select>
+                    @endif
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Peso Entrega</span>
+                    </div>
+                    <input class="form-control" type="number" placeholder="Ingrese el peso de entrega" id="pesoEntrega" required />
+                    <small></small>
+                  </div>
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Fecha Entrega</span>
+                    </div>
+                    <input class="form-control" type="date" id="tiempoEntrega" required />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Peso Registro</span>
+                    </div>
+                    <input class="form-control" type="number" placeholder="Ingrese el peso de registro" id="pesoRegistro" required />
+                    <small></small>
+                  </div>
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Fecha Registro</span>
+                    </div>
+                    <input class="form-control" type="date" id="tiempoRegistro" required />
+                  </div>
+                </div>
+              </div>
+              <!-- /.card-body -->
+              <div class="card-footer">
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                <a href="." type="button" class="btn btn-secondary"> Volver </a>
+              </div>
+              <!-- /.card-footer-->
+            </form>
+          </div>
+          <!-- /.card -->
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- /.content -->
+</div>
+<!-- /.content-wrapper -->
+
+<script src="/js/cosecha/crear.js"></script>
+
+@tag.footer()
