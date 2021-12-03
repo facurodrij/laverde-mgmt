@@ -8,7 +8,8 @@ $(document).ready(function () {
             pesoRegistro: $("#pesoRegistro").val(),
             tiempoRegistro: $("#tiempoRegistro").val(),
             secadero: $("#secadero").val(),
-            empleado: $("#empleado").val()
+            empleado: $("#empleado").val().toString(),
+            cuadro: $("#cuadro").val().toString()
         };
 
         var url = $(this).attr("action");

@@ -56,34 +56,29 @@ public class CosechasControlador {
         var tiempoEntrega = LocalDate.parse(ctx.formParamAsClass("tiempoEntrega", String.class).get());
         var pesoRegistro = ctx.formParamAsClass("pesoRegistro", Float.class).get();
         var tiempoRegistro = LocalDate.parse(ctx.formParamAsClass("tiempoRegistro", String.class).get());
-        var secadero =  this.repositorio.buscar(Secadero.class, (ctx.formParamAsClass("secadero", Integer.class).get()));
-        
-        try {
-            var empleado = ctx.formParam("empleado");
-            System.out.println(empleado);
-        } catch (Exception e) {
-            System.out.println(e); 
+        var secadero = this.repositorio.buscar(Secadero.class, (ctx.formParamAsClass("secadero", Integer.class).get()));
+        String[] empleado = ctx.formParam("empleado").split(",");
+        String[] cuadro = ctx.formParam("cuadro").split(",");
+
+        var modelo = new ModeloCosecha();
+
+        for (int i = 0; i < empleado.length; i++) {
+            modelo.empleados.add(this.repositorio.buscar(Empleado.class, Integer.parseInt(empleado[i])));
+        }
+        for (int i = 0; i < cuadro.length; i++) {
+            modelo.cuadros.add(this.repositorio.buscar(Cuadro.class, Integer.parseInt(cuadro[i])));
         }
 
-        System.out.println(pesoEntrega);
-        System.out.println(tiempoEntrega);
-        System.out.println(pesoRegistro);
-        System.out.println(tiempoRegistro);
-        System.out.println(secadero);
-
-        
-        // var modelo = new ModeloCosecha();
-
-        // Cosecha cosecha = new Cosecha();
-        // this.repositorio.iniciarTransaccion();
-        // try {
-        //     this.repositorio.insertar(cosecha);
-        //     this.repositorio.confirmarTransaccion();
-        // } catch (Exception e) {
-        //     System.out.println(e);
-        //     exception = e;
-        //     this.repositorio.descartarTransaccion();
-        // }
+        Cosecha cosecha = new Cosecha(pesoEntrega, tiempoEntrega, pesoRegistro, tiempoRegistro, modelo.cuadros, modelo.empleados, secadero);
+        this.repositorio.iniciarTransaccion();
+        try {
+            this.repositorio.insertar(cosecha);
+            this.repositorio.confirmarTransaccion();
+        } catch (Exception e) {
+            System.out.println(e);
+            exception = e;
+            this.repositorio.descartarTransaccion();
+        }
 
         ctx.redirect("/cosechas");
     }
@@ -105,10 +100,34 @@ public class CosechasControlador {
     }
 
     public void actualizar(Context ctx) throws SQLException {
+        var pesoEntrega = ctx.formParamAsClass("pesoEntrega", Float.class).get();
+        var tiempoEntrega = LocalDate.parse(ctx.formParamAsClass("tiempoEntrega", String.class).get());
+        var pesoRegistro = ctx.formParamAsClass("pesoRegistro", Float.class).get();
+        var tiempoRegistro = LocalDate.parse(ctx.formParamAsClass("tiempoRegistro", String.class).get());
+        var secadero = this.repositorio.buscar(Secadero.class, (ctx.formParamAsClass("secadero", Integer.class).get()));
+        String[] empleado = ctx.formParam("empleado").split(",");
+        String[] cuadro = ctx.formParam("cuadro").split(",");
+
+        var modelo = new ModeloCosecha();
+
+        for (int i = 0; i < empleado.length; i++) {
+            modelo.empleados.add(this.repositorio.buscar(Empleado.class, Integer.parseInt(empleado[i])));
+        }
+        for (int i = 0; i < cuadro.length; i++) {
+            modelo.cuadros.add(this.repositorio.buscar(Cuadro.class, Integer.parseInt(cuadro[i])));
+        }
+
         Cosecha cosecha = this.repositorio.buscar(Cosecha.class,
                 (ctx.pathParamAsClass("id", Integer.class).get()));
         if (cosecha != null) {
             this.repositorio.iniciarTransaccion();
+            cosecha.setPesoEntrega(pesoEntrega);
+            cosecha.setTiempoEntrega(tiempoEntrega);
+            cosecha.setPesoRegistro(pesoRegistro);
+            cosecha.setTiempoRegistro(tiempoRegistro);
+            cosecha.setSecadero(secadero);
+            cosecha.setEmpleados(modelo.empleados);
+            cosecha.setCuadros(modelo.cuadros);
             try {
                 this.repositorio.modificar(cosecha);
                 this.repositorio.confirmarTransaccion();

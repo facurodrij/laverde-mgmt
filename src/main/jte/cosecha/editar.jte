@@ -1,4 +1,4 @@
-@param edu.unam.jte.paginas.ModeloEmpleado modelo
+@param edu.unam.jte.paginas.ModeloCosecha modelo
 
 @tag.head()
 
@@ -11,13 +11,13 @@
     <div class="container-fluid">
       <div class="row mb-2">
         <div class="col-sm-6">
-          <h1>Empleados</h1>
+          <h1>Cosechas</h1>
         </div>
         <div class="col-sm-6">
           <ol class="breadcrumb float-sm-right">
             <li class="breadcrumb-item"><a href="/">Inicio</a></li>
-            <li class="breadcrumb-item"><a href="/empleados">Empleados</a></li>
-            <li class="breadcrumb-item active">${modelo.empleado.getNombres()}</li>
+            <li class="breadcrumb-item"><a href="/cosechas">Cosechas</a></li>
+            <li class="breadcrumb-item active">Nuevo</li>
           </ol>
         </div>
       </div>
@@ -40,66 +40,83 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Editar Empleado</h3>
+              <h3 class="card-title">Crear Cosecha</h3>
             </div>
-            <form action="/empleados/${modelo.empleado.getIdEmpleado()}" method="post" id="empleado">
-              <input class="form-control" type="hidden" id="idEmpleado" value="${modelo.empleado.getIdEmpleado()}" />
+            <form action="/cosechas/${modelo.cosecha.getIdCosecha()}" method="post" id="cosecha">
+              <input class="form-control" type="hidden" id="idCosecha" value="${modelo.cosecha.getIdCosecha()}" />
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-4 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Legajo</span>
+                      <span class="input-group-text">Empleados</span>
                     </div>
-                    <input class="form-control" type="text" placeholder="Ingrese el legajo" id="legajo"
-                      value="${modelo.empleado.getLegajo()}" required />
+                    <select class="form-control" id="empleado" multiple required>
+                      @for (var empleado : modelo.empleados)
+                        @if (modelo.cosecha.getEmpleados().contains(empleado))
+                          <option value="${empleado.getIdEmpleado()}" selected>${empleado.toString()}</option>
+                        @else
+                          <option value="${empleado.getIdEmpleado()}">${empleado.toString()}</option>
+                        @endif
+                      @endfor
+                    </select>
                   </div>
                   <div class="col-4 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">CUIL</span>
+                      <span class="input-group-text">Cuadros</span>
                     </div>
-                    <input class="form-control" type="text" placeholder="Ingrese el cuil" id="cuil"
-                      value="${modelo.empleado.getCuil()}" required />
+                    <select class="form-control" id="cuadro" multiple required>
+                      @for (var cuadro : modelo.cuadros)
+                        @if (modelo.cosecha.getCuadros().contains(cuadro))
+                          <option value="${cuadro.getIdCuadro()}" selected>${cuadro.toString()}</option>
+                        @else
+                          <option value="${cuadro.getIdCuadro()}">${cuadro.toString()}</option>
+                        @endif
+                      @endfor
+                    </select>
                   </div>
                   <div class="col-4 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">DNI</span>
+                      <span class="input-group-text">Secaderos</span>
                     </div>
-                    <input class="form-control" type="text" id="dni"
-                     value="${modelo.empleado.getDni()}" required />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-12 input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Nombre</span>
-                    </div>
-                    <input class="form-control" type="text" placeholder="Ingrese el nombre" id="nombres"
-                      value="${modelo.empleado.getNombres()}" required />
-                  </div>
-                </div>
-                <div class="form-group row">
-                  <div class="col-12 input-group">
-                    <div class="input-group-prepend">
-                      <span class="input-group-text">Apellido</span>
-                    </div>
-                    <input class="form-control" type="text" placeholder="Ingrese el apellido" id="apellidos"
-                      value="${modelo.empleado.getApellidos()}" required />
+                    <select class="form-control" id="secadero" required>
+                      @for (var secadero : modelo.secaderos)
+                        @if (secadero.getIdSecadero() == modelo.cosecha.getSecadero().getIdSecadero())
+                          <option value="${secadero.getIdSecadero()}" selected>${secadero.toString()}</option>
+                        @else
+                          <option value="${secadero.getIdSecadero()}">${secadero.toString()}</option>
+                        @endif
+                      @endfor
+                    </select>
                   </div>
                 </div>
                 <div class="form-group row">
                   <div class="col-6 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Fecha Ingreso</span>
+                      <span class="input-group-text">Peso Entrega</span>
                     </div>
-                    <input class="form-control" type="date" id="ingreso"
-                     value="${modelo.empleado.getIngreso().toString()}" required />
+                    <input class="form-control" type="number" placeholder="Ingrese el peso de entrega" id="pesoEntrega" value="${modelo.cosecha.getPesoEntrega()}" required />
+                    <small></small>
                   </div>
                   <div class="col-6 input-group">
                     <div class="input-group-prepend">
-                      <span class="input-group-text">Fecha Nacimiento</span>
+                      <span class="input-group-text">Fecha Entrega</span>
                     </div>
-                    <input class="form-control" type="date" id="nacimiento"
-                     value="${modelo.empleado.getNacimiento().toString()}" required />
+                    <input class="form-control" type="date" id="tiempoEntrega" value="${modelo.cosecha.getTiempoEntrega().toString()}" required />
+                  </div>
+                </div>
+                <div class="form-group row">
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Peso Registro</span>
+                    </div>
+                    <input class="form-control" type="number" placeholder="Ingrese el peso de registro" id="pesoRegistro" value="${modelo.cosecha.getPesoRegistro()}" required />
+                    <small></small>
+                  </div>
+                  <div class="col-6 input-group">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text">Fecha Registro</span>
+                    </div>
+                    <input class="form-control" type="date" id="tiempoRegistro" value="${modelo.cosecha.getTiempoRegistro().toString()}" required />
                   </div>
                 </div>
               </div>
@@ -120,6 +137,6 @@
 </div>
 <!-- /.content-wrapper -->
 
-<script src="/js/empleado/actualizar.js"></script>
+<script src="/js/cosecha/actualizar.js"></script>
 
 @tag.footer()

@@ -75,8 +75,19 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
-                <a href="." type="button" class="btn btn-secondary"> Volver </a>
+                @if (!modelo.lotes.isEmpty())
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                  <a href="." type="button" class="btn btn-secondary"> Volver </a>
+                @else
+                  <button disabled type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                  <a href="." type="button" class="btn btn-secondary"> Volver </a>
+                  <div class="alert mt-3 alert-danger alert-dismissible fade show" role="alert">
+                    Debe tener almenos un Lote registrado.	
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                @endif
               </div>
               <!-- /.card-footer-->
             </form>

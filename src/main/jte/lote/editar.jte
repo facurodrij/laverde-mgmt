@@ -74,11 +74,11 @@
                     </div>
                     <select class="form-control" id="productor" required>
                       @for (var productor : modelo.productores)
-                      @if (productor.getIdProductor() == modelo.lote.getProductor().getIdProductor())
-                      <option value="${productor.getIdProductor()}" selected>${productor.toString()}</option>
-                      @else
-                      <option value="${productor.getIdProductor()}">${productor.toString()}</option>
-                      @endif
+                        @if (productor.getIdProductor() == modelo.lote.getProductor().getIdProductor())
+                          <option value="${productor.getIdProductor()}" selected>${productor.toString()}</option>
+                        @else
+                          <option value="${productor.getIdProductor()}">${productor.toString()}</option>
+                        @endif
                       @endfor
                     </select>
                   </div>
