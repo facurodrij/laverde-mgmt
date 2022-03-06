@@ -5,6 +5,6 @@ import java.util.List;
 
 import edu.unam.jte.modelos.Cuadro;
 
-public class ModeloCuadros extends ModeloExcepcion {
+public class ModeloCuadros extends ModeloConjunto {
     public List<Cuadro> cuadros = new ArrayList<>();
 }

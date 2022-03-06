@@ -21,13 +21,22 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      @if (modelo.excepcion != null)
+        @if (modelo.excepcion == "")
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            El empleado se ha registrado correctamente
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @else
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${modelo.excepcion}	
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
       @endif
     </div><!-- /.container-fluid -->
   </section>
@@ -42,7 +51,7 @@
             <div class="card-header">
               <h3 class="card-title">Crear Empleado</h3>
             </div>
-            <form action="/empleados" method="post" id="empleado">
+            <form action="/empleados/nuevo" method="post" id="empleado">
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-4 input-group">

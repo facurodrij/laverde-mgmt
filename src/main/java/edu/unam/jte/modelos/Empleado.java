@@ -3,34 +3,47 @@ package edu.unam.jte.modelos;
 import java.util.*;
 import java.time.LocalDate;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Empleado {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "Serial")
     private int idEmpleado;
+
+    @NotNull
+    private boolean valido = true;
 
     @ManyToMany(targetEntity = Cosecha.class, mappedBy = "empleados")
     private List<Cosecha> cosechas;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private String legajo;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private long dni;
 
-    @Column(unique = true)
+    @Column(nullable = false, unique = true)
     private long cuil;
 
+    @NotNull
+    @NotBlank
+    @Size(max=50)
     private String apellidos;
+
+    @NotNull
+    @NotBlank
+    @Size(max=50)
     private String nombres;
+
+    @NotNull
+    @PastOrPresent
     private LocalDate ingreso;
+
+    @NotNull
+    @Past
     private LocalDate nacimiento;
 
     public Empleado() {
@@ -119,6 +132,22 @@ public class Empleado {
 
     public void setCuil(long i) {
         this.cuil = i;
+    }
+
+    public boolean esValido() {
+        return this.valido;
+    }
+
+    public boolean esInvalido() {
+        return !this.valido;
+    }
+
+    public void eliminar() {
+        this.valido = false;
+    }
+
+    public void recuperar() {
+        this.valido = true;
     }
 
     @Override

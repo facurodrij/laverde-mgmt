@@ -3,22 +3,33 @@ package edu.unam.jte.modelos;
 import java.time.LocalDate;
 import java.util.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Cosecha {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "Serial")
     private int idCosecha;
 
+    @NotNull
+    private boolean valido = true;
+
+    @Positive
+    @Column(nullable = false)
     private float pesoEntrega;
+
+    @PastOrPresent
+    @Column(nullable = false)
     private LocalDate tiempoEntrega;
+
+    @Positive
+    @Column(nullable = false)
     private float pesoRegistro;
+
+    @PastOrPresent
+    @Column(nullable = false)
     private LocalDate tiempoRegistro;
 
     @ManyToMany(targetEntity = Cuadro.class)
@@ -108,6 +119,22 @@ public class Cosecha {
 
     public void setSecadero(Secadero secadero) {
         this.secadero = secadero;
+    }
+
+    public boolean esValido() {
+        return this.valido;
+    }
+
+    public boolean esInvalido() {
+        return !this.valido;
+    }
+
+    public void eliminar() {
+        this.valido = false;
+    }
+
+    public void recuperar() {
+        this.valido = true;
     }
 
     /*

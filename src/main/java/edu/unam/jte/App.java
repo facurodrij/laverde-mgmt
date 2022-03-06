@@ -1,29 +1,31 @@
 package edu.unam.jte;
 
+import static io.javalin.apibuilder.ApiBuilder.*;
+
 import io.javalin.Javalin;
 import io.javalin.http.Context;
 import io.javalin.http.staticfiles.Location;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.Persistence;
+
+import jakarta.persistence.*;
+
 import java.util.Collections;
+
 import edu.unam.jte.controladores.*;
 import edu.unam.jte.paginas.*;
 import edu.unam.jte.repositorios.*;
 
-import static io.javalin.apibuilder.ApiBuilder.*;
 
-// para usar routes
-// import static io.javalin.apibuilder.ApiBuilder.*;
 
 /**
- * Aplicación de ejemplo usando jte y sql2o
- * 
+ * Aplicación principal
  */
 public class App {
 
     /**
-     * @param args argumento que recibe la aplicación
+     * Método que inicia la aplicación. Antes de ejecutar el método, asegúrese que
+     * la base de datos tiene la extensión PostGIS creada.
      */
+    //CREATE EXTENSION PostGIS;
     public static void main(String[] args) {
 
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("LaVerdeSA");
@@ -41,6 +43,8 @@ public class App {
         Javalin app = Javalin.create(config -> {
             config.addStaticFiles("/public", Location.CLASSPATH);
             config.enableCorsForAllOrigins();
+            config.enableDevLogging();
+            config.enforceSsl = true;
         }).exception(Exception.class, (e, ctx) -> {
             ctx.status(404);
         }).start(7000);
@@ -49,9 +53,10 @@ public class App {
         app.routes(() -> {
             path("cosechas", () -> {
                 get(cosechasControlador::listar);
-                post(cosechasControlador::crear);
+                post(cosechasControlador::recuperar);
                 path("nuevo", () -> {
                     get(cosechasControlador::nuevo);
+                    post(cosechasControlador::crear);
                 });
                 path("{id}", () -> {
                     get(cosechasControlador::modificar);
@@ -61,9 +66,10 @@ public class App {
             });
             path("cuadros", () -> {
                 get(cuadrosControlador::listar);
-                post(cuadrosControlador::crear);
+                post(cuadrosControlador::recuperar);
                 path("nuevo", () -> {
                     get(cuadrosControlador::nuevo);
+                    post(cuadrosControlador::crear);
                 });
                 path("{id}", () -> {
                     get(cuadrosControlador::modificar);
@@ -73,9 +79,10 @@ public class App {
             });
             path("empleados", () -> {
                 get(empleadosControlador::listar);
-                post(empleadosControlador::crear);
+                post(empleadosControlador::recuperar);
                 path("nuevo", () -> {
                     get(empleadosControlador::nuevo);
+                    post(empleadosControlador::crear);
                 });
                 path("{id}", () -> {
                     get(empleadosControlador::modificar);
@@ -85,9 +92,10 @@ public class App {
             });
             path("lotes", () -> {
                 get(lotesControlador::listar);
-                post(lotesControlador::crear);
+                post(lotesControlador::recuperar);
                 path("nuevo", () -> {
                     get(lotesControlador::nuevo);
+                    post(lotesControlador::crear);
                 });
                 path("{id}", () -> {
                     get(lotesControlador::modificar);
@@ -97,9 +105,10 @@ public class App {
             });
             path("productores", () -> {
                 get(productoresControlador::listar);
-                post(productoresControlador::crear);
+                post(productoresControlador::recuperar);
                 path("nuevo", () -> {
                     get(productoresControlador::nuevo);
+                    post(productoresControlador::crear);
                 });
                 path("{id}", () -> {
                     get(productoresControlador::modificar);
@@ -109,9 +118,10 @@ public class App {
             });
             path("secaderos", () -> {
                 get(secaderosControlador::listar);
-                post(secaderosControlador::crear);
+                post(secaderosControlador::recuperar);
                 path("nuevo", () -> {
                     get(secaderosControlador::nuevo);
+                    post(secaderosControlador::crear);
                 });
                 path("{id}", () -> {
                     get(secaderosControlador::modificar);
@@ -120,7 +130,6 @@ public class App {
                 });
             });
         });
-
         app.get("/", App::mostrarIndex); // muestra el index
         app.post("/", App::validarUsuario); // "valida usuario"
     }
@@ -128,7 +137,7 @@ public class App {
     /**
      * @param ctx Contexto de la petición
      */
-    private static void mostrarIndex(Context ctx) {
+    protected static void mostrarIndex(Context ctx) {
         var modelo = new ModeloIndex();
         // controlo por cookie
         if (ctx.cookie("nombreUsuario") != null) {
@@ -142,11 +151,10 @@ public class App {
     /**
      * @param ctx Contexto de la petición
      */
-    private static void validarUsuario(Context ctx) {
+    protected static void validarUsuario(Context ctx) {
         // obtengo valor enviado en el formulario
-        var valor = ctx.formParamAsClass("nombreUsuario", String.class).get();
-        // creo el cookie (antes se debe validar sobre la base de datos o alguna otra
-        // forma)
+        var valor = ctx.formParam("nombreUsuario");
+        // creo el cookie (antes se debe validar sobre la base de datos o alguna otra forma),
         // recibo el elemento y hago un trim para guardarlo en el cookie
         ctx.cookie("nombreUsuario", valor.trim());
         // redirecciono a /

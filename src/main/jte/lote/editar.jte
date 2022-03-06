@@ -21,9 +21,9 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
+      @if (modelo.excepcion != null)
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
+          ${modelo.excepcion}	
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -43,7 +43,6 @@
               <h3 class="card-title">Editar Lote</h3>
             </div>
             <form action="/lotes/${modelo.lote.getIdLote()}" method="post" id="lote">
-              <input class="form-control" type="hidden" id="idLote" value="${modelo.lote.getIdLote()}" />
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-9 input-group">
@@ -51,9 +50,9 @@
                       <span class="input-group-text">Punto 1</span>
                     </div>
                     <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto1X"
-                      value="${(modelo.lote.getPunto1())[0]}" required />
+                      value="${modelo.lote.getAbajoIzquierda().getLon()}" required />
                     <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto1Y"
-                      value="${(modelo.lote.getPunto1())[1]}" required />
+                      value="${modelo.lote.getAbajoIzquierda().getLat()}" required />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -62,9 +61,9 @@
                       <span class="input-group-text">Punto 2</span>
                     </div>
                     <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto2X"
-                      value="${(modelo.lote.getPunto2())[0]}" required />
+                      value="${modelo.lote.getArribaDerecha().getLon()}" required />
                     <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto2Y"
-                      value="${(modelo.lote.getPunto2())[1]}" required />
+                      value="${modelo.lote.getArribaDerecha().getLat()}" required />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -86,7 +85,7 @@
               </div>
               <!-- /.card-body -->
               <div class="card-footer">
-                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar </button>
                 <a href="." type="button" class="btn btn-secondary"> Volver </a>
               </div>
               <!-- /.card-footer-->

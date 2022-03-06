@@ -20,13 +20,46 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      @if (modelo.excepcion != null)
+        @if (modelo.excepcion != "")
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${modelo.excepcion}	
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @else
+          @if (modelo.eliminado != 0)
+            <form action="/empleados" method="post" id="form">
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p>
+                  El empleado con ID = ${modelo.eliminado} se ha eliminado correctamente
+                  <input type="hidden" id="id" value="${modelo.eliminado}" />
+                  <button type="submit" class="btn btn-light btn-xs float-right"> Deshacer </button>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </p>
+              </div>
+            </form>
+          @else
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              El empleado se ha actualizado correctamente
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif
+        @endif
+      @else
+        @if (modelo.eliminado != 0)
+          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            Se ha recuperado el empleado con ID = ${modelo.eliminado}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
       @endif
     </div><!-- /.container-fluid -->
   </section>
@@ -77,7 +110,7 @@
                           <i class="fas fa-edit"></i>
                         </a>
                         <a type="button" class="btn btn-danger btn-xs no-gutters"
-                          onClick="borrar(${empleado.getIdEmpleado()})">
+                          onClick="borrar(&quot;empleados&quot;,${empleado.getIdEmpleado()})">
                           <i class="fas fa-trash-alt"></i>
                         </a>
                       </td>
@@ -97,6 +130,7 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<script src="/js/empleado/borrar.js"></script>
+<script src="/js/borrar.js"></script>
+<script src="/js/recuperar.js"></script>
 
 @tag.footer()

@@ -5,6 +5,6 @@ import java.util.List;
 
 import edu.unam.jte.modelos.Productor;
 
-public class ModeloProductores extends ModeloExcepcion {
+public class ModeloProductores extends ModeloConjunto {
     public List<Productor> productores = new ArrayList<>();
 }

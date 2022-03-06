@@ -21,13 +21,22 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      @if (modelo.excepcion != null)
+        @if (modelo.excepcion == "")
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            El productor se ha registrado correctamente
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @else
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${modelo.excepcion}	
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
       @endif
     </div><!-- /.container-fluid -->
   </section>
@@ -42,7 +51,7 @@
             <div class="card-header">
               <h3 class="card-title">Crear Productor</h3>
             </div>
-            <form action="/productores" method="post" id="productor">
+            <form action="/productores/nuevo" method="post" id="productor">
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-6 input-group">

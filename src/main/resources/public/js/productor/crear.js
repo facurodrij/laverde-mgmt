@@ -13,15 +13,12 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Productor agregado correctamente.");
-                location.href = "/productores";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#cuit").val("");
+                $("#nombres").val("");
+                $("#apellidos").val("");
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

@@ -20,13 +20,46 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      @if (modelo.excepcion != null)
+        @if (modelo.excepcion != "")
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${modelo.excepcion}	
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @else
+          @if (modelo.eliminado != 0)
+            <form action="/cosechas" method="post" id="form">
+              <div class="alert alert-info alert-dismissible fade show" role="alert">
+                <p>
+                  La cosecha con ID = ${modelo.eliminado} se ha eliminado correctamente
+                  <input type="hidden" id="id" value="${modelo.eliminado}" />
+                  <button type="submit" class="btn btn-light btn-xs float-right"> Deshacer </button>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </p>
+              </div>
+            </form>
+          @else
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              La cosecha se ha actualizado correctamente
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif
+        @endif
+      @else
+        @if (modelo.eliminado != 0)
+          <div class="alert alert-dark alert-dismissible fade show" role="alert">
+            Se ha recuperado la cosecha con ID = ${modelo.eliminado}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
       @endif
     </div><!-- /.container-fluid -->
   </section>
@@ -40,7 +73,6 @@
           <div class="card">
             <div class="card-header">
               <h3 class="card-title">Lista de Cosechas</h3>
-
               <div class="card-tools">
                 <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
                   <i class="fas fa-minus"></i>
@@ -60,22 +92,21 @@
                       <th scope="col" style="width: 50%;">Peso Entrega</th>
                     </tr>
                   </thead>
-
                   <tbody>
                     @for (var cosecha : modelo.cosechas)
-                    <tr>
-                      <td scope="row">${cosecha.getPesoEntrega()}</td>
-                      <td>
-                        <a type="button" class="btn btn-warning btn-xs no-gutters"
-                          href="/cosechas/${cosecha.getIdCosecha()}">
-                          <i class="fas fa-edit"></i>
-                        </a>
-                        <a type="button" class="btn btn-danger btn-xs no-gutters"
-                          onClick="borrar(${cosecha.getIdCosecha()})">
-                          <i class="fas fa-trash-alt"></i>
-                        </a>
-                      </td>
-                    </tr>
+                      <tr>
+                        <td scope="row">${cosecha.getPesoEntrega()}</td>
+                        <td>
+                          <a type="button" class="btn btn-warning btn-xs no-gutters"
+                            href="/cosechas/${cosecha.getIdCosecha()}">
+                            <i class="fas fa-edit"></i>
+                          </a>
+                          <a type="button" class="btn btn-danger btn-xs no-gutters"
+                            onClick="borrar(&quot;cosechas&quot;,${cosecha.getIdCosecha()})">
+                            <i class="fas fa-trash-alt"></i>
+                          </a>
+                        </td>
+                      </tr>
                     @endfor
                   </tbody>
                 </table>
@@ -91,6 +122,7 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
-<script src="/js/cosecha/borrar.js"></script>
+<script src="/js/borrar.js"></script>
+<script src="/js/recuperar.js"></script>
 
 @tag.footer()

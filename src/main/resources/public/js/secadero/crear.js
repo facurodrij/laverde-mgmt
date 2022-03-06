@@ -14,15 +14,11 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Secadero agregado correctamente.");
-                location.href = "/secaderos";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#cuit").val(""),
+                $("#razonSocial").val("");
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

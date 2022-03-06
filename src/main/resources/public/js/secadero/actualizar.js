@@ -12,15 +12,10 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Secadero actualizado correctamente.");
-                location.href = "/secaderos";
+                location.replace("/secaderos");
             })
             .fail(function () {
-                alert("Ha ocurrido un Error");
                 location.reload();
-            })
-            .always(function () {
-
             });
     });
 });

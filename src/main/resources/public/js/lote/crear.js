@@ -15,15 +15,14 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Lote agregado correctamente.");
-                location.href = "/lotes";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#punto1X").val("");
+                $("#punto1Y").val("");
+                $("#punto2X").val("");
+                $("#punto2Y").val("");
+                $("#productor").val("");
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

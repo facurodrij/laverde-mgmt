@@ -21,9 +21,9 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
+      @if (modelo.excepcion != null)
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
+          ${modelo.excepcion}	
           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

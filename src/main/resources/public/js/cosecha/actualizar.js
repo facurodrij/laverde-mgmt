@@ -17,15 +17,10 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Cosecha actualizada correctamente.");
-                location.href = "/cosechas";
+                location.replace("/cosechas");
             })
             .fail(function () {
-                alert("Ha ocurrido un Error");
                 location.reload();
-            })
-            .always(function () {
-
             });
     });
 });

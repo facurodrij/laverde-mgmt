@@ -1,24 +1,29 @@
 package edu.unam.jte.modelos;
 
+import static org.geolatte.geom.crs.CoordinateReferenceSystems.WGS84;
+
 import java.util.*;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import org.geolatte.geom.*;
 
 @Entity
 public class Lote {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "Serial")
     private int idLote;
 
-    private double[] punto1;
-    private double[] punto2;
-    private String puntos;
+    @NotNull
+    private boolean valido = true;
 
+    @NotNull
+    @Column(columnDefinition = "Geometry(LineString, 4326)")
+    private LineString<G2D> coordenadas;
+
+    @NotNull
     @ManyToOne
     private Productor productor;
 
@@ -26,75 +31,101 @@ public class Lote {
     private List<Cuadro> cuadros = new ArrayList<>();
 
     public Lote() {
-        inicio();
+        this.idLote = 0;
+        this.coordenadas = new LineString<>(WGS84);
+        this.productor = new Productor();
     }
 
-    public Lote(double[] punto1, double[] punto2, Productor productor) {
-        inicio();
-        this.setPunto1(punto1);
-        this.setPunto2(punto2);
-        this.setProductor(productor);
+    public Lote(LineString<G2D> coordenadas, Productor productor)
+    {
+        this.coordenadas = coordenadas;
+        this.productor = productor;
     }
 
     public int getIdLote() {
         return this.idLote;
     }
 
-    public double[] getPunto1() {
-        return this.punto1;
+    public LineString<G2D> getCoordenadas() {
+        return this.coordenadas;
     }
 
-    public String punto1_ToString() {
-        return Double.toString(this.punto1[0]) + "; " + Double.toString(this.punto1[1]);
+    public G2D getAbajoIzquierda() {
+        return this.coordenadas.getPositionN(0);
     }
 
-    public double[] getPunto2() {
-        return this.punto2;
+    public String getAbajoIzquierda_toString() {
+        G2D punto = this.coordenadas.getPositionN(0);
+        return "(" + Double.toString(punto.getLon()) + "; " +
+            Double.toString(punto.getLat()) + ")";
     }
 
-    public String punto2_ToString() {
-        return Double.toString(this.punto2[0]) + "; " + Double.toString(this.punto2[1]);
+    public G2D getAbajoDerecha() {
+        return this.coordenadas.getPositionN(1);
+    }
+
+    public String getAbajoDerecha_toString() {
+        G2D punto = this.coordenadas.getPositionN(1);
+        return "(" + Double.toString(punto.getLon()) + "; " +
+            Double.toString(punto.getLat()) + ")";
+    }
+
+    public G2D getArribaDerecha() {
+        return this.coordenadas.getPositionN(2);
+    }
+
+    public String getArribaDerecha_toString() {
+        G2D punto = this.coordenadas.getPositionN(2);
+        return "(" + Double.toString(punto.getLon()) + "; " +
+            Double.toString(punto.getLat()) + ")";
+    }
+
+    public G2D getArribaIzquierda() {
+        return this.coordenadas.getPositionN(3);
+    }
+
+    public String getArribaIzquierda_toString() {
+        G2D punto = this.coordenadas.getPositionN(3);
+        return "(" + Double.toString(punto.getLon()) + "; " +
+            Double.toString(punto.getLat()) + ")";
     }
 
     public Productor getProductor() {
         return productor;
     }
 
-    public String getPuntos() {
-        this.puntos = this.toString();
-        return this.puntos;
-    }
-
     public List<Cuadro> getCuadros() {
         return cuadros;
     }
 
-    public void setPunto1(double[] punto1) {
-        this.punto1 = punto1;
-    }
-
-    public void setPunto2(double[] punto2) {
-        this.punto2 = punto2;
-    }
-
-    public void setPuntos(String s) {
-        this.puntos = s;
+    public void setCoordenadas(LineString<G2D> coordenadas)
+    {
+        this.coordenadas = coordenadas;
     }
 
     public void setProductor(Productor productor) {
         this.productor = productor;
     }
 
-    private void inicio() {
-        this.punto1 = new double[2];
-        this.punto2 = new double[2];
-        this.puntos = this.toString();
+    public boolean esValido() {
+        return this.valido;
+    }
+
+    public boolean esInvalido() {
+        return !this.valido;
+    }
+
+    public void eliminar() {
+        this.valido = false;
+    }
+
+    public void recuperar() {
+        this.valido = true;
     }
 
     @Override
     public final String toString() {
-        return Integer.toString(this.getIdLote()) + ". (" + Double.toString(this.punto1[0]) + ","
-                + Double.toString(this.punto1[1]) + ") ; (" + Double.toString(this.punto2[0]) + ","
-                + Double.toString(this.punto2[1]) + ")";
+        return Integer.toString(this.idLote) + ": [" + this.getAbajoIzquierda_toString() + ", " +
+            this.getArribaDerecha_toString() + "]";
     }
 }

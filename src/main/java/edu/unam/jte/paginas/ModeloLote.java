@@ -1,7 +1,13 @@
 package edu.unam.jte.paginas;
 
-import edu.unam.jte.modelos.Lote;
+import java.util.ArrayList;
+import java.util.List;
 
-public class ModeloLote extends ModeloProductores {
+import edu.unam.jte.modelos.Lote;
+import edu.unam.jte.modelos.Productor;
+
+public class ModeloLote extends ModeloIndividual {
     public Lote lote;
+
+    public List<Productor> productores = new ArrayList<>();
 }

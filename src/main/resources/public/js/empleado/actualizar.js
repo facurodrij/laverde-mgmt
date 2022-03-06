@@ -17,15 +17,10 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Empleado actualizado correctamente.");
-                location.href = "/empleados";
+                location.replace("/empleados");
             })
             .fail(function () {
-                alert("Ha ocurrido un Error");
                 location.reload();
-            })
-            .always(function () {
-
             });
     });
 });

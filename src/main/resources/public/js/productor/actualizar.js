@@ -13,15 +13,10 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Productor actualizado correctamente.");
-                location.href = "/productores";
+                location.replace("/productores");
             })
             .fail(function () {
-                alert("Ha ocurrido un Error");
                 location.reload();
-            })
-            .always(function () {
-
             });
     });
 });

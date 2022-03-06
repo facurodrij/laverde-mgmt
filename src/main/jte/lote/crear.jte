@@ -21,13 +21,22 @@
           </ol>
         </div>
       </div>
-      @if (modelo.exception != null)
-        <div class="alert alert-danger alert-dismissible fade show" role="alert">
-          ${modelo.exception.getCause().getCause().getMessage()}	
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
+      @if (modelo.excepcion != null)
+        @if (modelo.excepcion == "")
+          <div class="alert alert-success alert-dismissible fade show" role="alert">
+            El lote se ha registrado correctamente
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @else
+          <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            ${modelo.excepcion}	
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+        @endif
       @endif
     </div><!-- /.container-fluid -->
   </section>
@@ -42,15 +51,15 @@
             <div class="card-header">
               <h3 class="card-title">Crear Lote</h3>
             </div>
-            <form action="/lotes" method="post" id="lote">
+            <form action="/lotes/nuevo" method="post" id="formulario">
               <div class="card-body">
                 <div class="form-group row">
                   <div class="col-9 input-group">
                     <div class="input-group-prepend">
                       <span class="input-group-text">Punto 1</span>
                     </div>
-                    <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto1X" required />
-                    <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto1Y" required />
+                    <input class="form-control" type="number" step="0.001" placeholder="Ingrese la longitud" id="punto1X" required />
+                    <input class="form-control" type="number" step="0.001" placeholder="Ingrese la latitud" id="punto1Y" required />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -58,8 +67,8 @@
                     <div class="input-group-prepend">
                       <span class="input-group-text">Punto 2</span>
                     </div>
-                    <input class="form-control" type="number" placeholder="Ingrese la longitud" id="punto2X" required />
-                    <input class="form-control" type="number" placeholder="Ingrese la latitud" id="punto2Y" required />
+                    <input class="form-control" type="number" step="0.001" placeholder="Ingrese la longitud" id="punto2X" required />
+                    <input class="form-control" type="number" step="0.001" placeholder="Ingrese la latitud" id="punto2Y" required />
                   </div>
                 </div>
                 <div class="form-group row">
@@ -71,7 +80,7 @@
                     <select class="form-control" id="productor" required>
                       <option value="" hidden selected>Seleccione una opción</option>
                       @for (var productor : modelo.productores)
-                      <option value="${productor.getIdProductor()}">${productor.toString()}</option>
+                        <option value="${productor.getIdProductor()}">${productor.toString()}</option>
                       @endfor
                     </select>
                     @else
@@ -85,10 +94,10 @@
               <!-- /.card-body -->
               <div class="card-footer">
                 @if (!modelo.productores.isEmpty())
-                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                  <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar </button>
                   <a href="." type="button" class="btn btn-secondary"> Volver </a>
                 @else
-                  <button disabled type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                  <button disabled class="btn btn-primary"><i class="fas fa-save"></i> Guardar </button>
                   <a href="." type="button" class="btn btn-secondary"> Volver </a>
                   <div class="alert mt-3 alert-danger alert-dismissible fade show" role="alert">
                     Debe tener almenos un Productor registrado.	

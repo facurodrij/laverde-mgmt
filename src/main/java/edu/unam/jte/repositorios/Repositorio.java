@@ -1,11 +1,8 @@
 package edu.unam.jte.repositorios;
 
 import java.util.List;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.persistence.criteria.CriteriaBuilder;
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Root;
+import jakarta.persistence.*;
+import jakarta.persistence.criteria.*;
 import jakarta.persistence.metamodel.SingularAttribute;
 
 public class Repositorio {
@@ -32,8 +29,8 @@ public class Repositorio {
         this.em.persist(o);
     }
 
-    public void modificar(Object o) {
-        this.em.merge(o);
+    public <T extends Object> T actualizar(T o) {
+        return this.em.merge(o);
     }
 
     public <T extends Object> void eliminar(Class<T> clase, T objeto) {

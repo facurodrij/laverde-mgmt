@@ -17,15 +17,16 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Cosecha agregada correctamente.");
-                location.href = "/cosechas";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#pesoEntrega").val("");
+                $("#tiempoEntrega").val("");
+                $("#pesoRegistro").val("");
+                $("#tiempoRegistro").val("");
+                $("#secadero").val("");
+                $("#empleado").val("");
+                $("#cuadro").val("");
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

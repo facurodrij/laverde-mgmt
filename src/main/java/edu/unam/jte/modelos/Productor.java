@@ -2,12 +2,8 @@ package edu.unam.jte.modelos;
 
 import java.util.*;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 
 @Entity
 public class Productor {
@@ -17,13 +13,20 @@ public class Productor {
      * el ID va a seguir permitiendo identificar de forma unica el registro.
      */
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(columnDefinition = "Serial")
     private int idProductor;
 
-    @Column(unique = true)
+    @NotNull
+    private boolean valido = true;
+
+    @Column(nullable = false, unique = true)
     private long cuit;
 
+    @Column(nullable = false)
     private String apellidos;
+
+    @Column(nullable = false)
     private String nombres;
 
     @OneToMany(targetEntity = Lote.class, mappedBy = "productor")
@@ -103,6 +106,22 @@ public class Productor {
         if (cuit != other.cuit)
             return false;
         return true;
+    }
+
+    public boolean esValido() {
+        return this.valido;
+    }
+
+    public boolean esInvalido() {
+        return !this.valido;
+    }
+
+    public void eliminar() {
+        this.valido = false;
+    }
+
+    public void recuperar() {
+        this.valido = true;
     }
 
     @Override

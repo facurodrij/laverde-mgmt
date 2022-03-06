@@ -15,15 +15,10 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Lote actualizado correctamente.");
-                location.href = "/lotes";
+                location.replace("/lotes");
             })
             .fail(function () {
-                alert("Ha ocurrido un Error");
                 location.reload();
-            })
-            .always(function () {
-
             });
     });
 });

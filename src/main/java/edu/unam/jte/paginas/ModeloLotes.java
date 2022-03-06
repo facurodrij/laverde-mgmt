@@ -5,6 +5,6 @@ import java.util.List;
 
 import edu.unam.jte.modelos.Lote;
 
-public class ModeloLotes extends ModeloExcepcion {
+public class ModeloLotes extends ModeloConjunto {
     public List<Lote> lotes = new ArrayList<>();
 }

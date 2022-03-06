@@ -1,18 +1,16 @@
 package edu.unam.jte.paginas;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import edu.unam.jte.modelos.*;
 
-public class ModeloCosecha extends ModeloExcepcion {
+public class ModeloCosecha extends ModeloIndividual {
     public Cosecha cosecha;
 
-    ModeloEmpleados emp = new ModeloEmpleados();
-    public List<Empleado> empleados = emp.empleados;
+    public List<Empleado> empleados = new ArrayList<>();
 
-    ModeloCuadros cua = new ModeloCuadros();
-    public List<Cuadro> cuadros = cua.cuadros;
+    public List<Cuadro> cuadros = new ArrayList<>();
 
-    ModeloSecaderos sec = new ModeloSecaderos();
-    public List<Secadero> secaderos = sec.secaderos;
+    public List<Secadero> secaderos = new ArrayList<>();
 }

@@ -17,15 +17,16 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Empleado agregado correctamente.");
-                location.href = "/empleados";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#legajo").val("");
+                $("#dni").val("");
+                $("#cuil").val("");
+                $("#nombres").val("");
+                $("#apellidos").val("");
+                $("#ingreso").val("");
+                $("#nacimiento").val("");
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

@@ -4,7 +4,9 @@ $(document).ready(function () {
 
         var formData = {
             descripcion: $("#descripcion").val(),
-            lote: $("#lote").val()
+            lote: $("#lote").val(),
+            puntosX: $('input[id=puntoX]').map(function() {return this.value;}).get().toString(),
+            puntosY: $('input[id=puntoY]').map(function() {return this.value;}).get().toString()
         };
 
         var url = $(this).attr("action");
@@ -12,15 +14,13 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                alert("Cuadro agregado correctamente.");
-                location.href = "/cuadros";
-            })
-            .fail(function () {
-                alert("Ha ocurrido un Error");
-                location.reload();
+                $("#descripcion").val("");
+                $("#lote").val("");
+                $('input[id=puntoX]').map(function() {this.value = "";});
+                $('input[id=puntoY]').map(function() {this.value = "";});
             })
             .always(function () {
-
+                location.reload();
             });
     });
 });

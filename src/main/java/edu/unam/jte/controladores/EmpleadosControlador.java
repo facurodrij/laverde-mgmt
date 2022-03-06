@@ -1,98 +1,96 @@
 package edu.unam.jte.controladores;
 
 import io.javalin.http.Context;
-import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.util.Collections;
 
 import edu.unam.jte.repositorios.Repositorio;
-import edu.unam.jte.modelos.Empleado;
-import edu.unam.jte.paginas.ModeloEmpleado;
-import edu.unam.jte.paginas.ModeloEmpleados;
+import edu.unam.jte.modelos.*;
+import edu.unam.jte.paginas.*;
 
 public class EmpleadosControlador {
-
     private Repositorio repositorio;
 
-    private Exception exception = null;
+    private String excepcion = null;
+
+    private int eliminado = 0;
 
     public EmpleadosControlador(Repositorio repositorio) {
         this.repositorio = repositorio;
     }
 
-    public void listar(Context ctx) throws SQLException {
+    public void listar(Context ctx) {
         var modelo = new ModeloEmpleados();
+        modelo.eliminado = eliminado;
+        modelo.excepcion = excepcion;
+        eliminado = 0;
+        excepcion = null;
         modelo.empleados = repositorio.buscarTodos(Empleado.class);
-        if (exception == null) {
-            modelo.exception = exception;
-            ctx.render("empleado/listar.jte", Collections.singletonMap("modelo", modelo));
-        } else {
-            modelo.exception = exception;
-            ctx.render("empleado/listar.jte", Collections.singletonMap("modelo", modelo));
-            exception = null;
+        for (int i = 0; i < modelo.empleados.size(); i++) {
+            if (modelo.empleados.get(i).esInvalido()) {
+                modelo.empleados.remove(i);
+            }
         }
+        ctx.render("empleado/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
-    public void nuevo(Context ctx) throws SQLException {
+    public void nuevo(Context ctx) {
         var modelo = new ModeloEmpleado();
-        if (exception == null) {
-            modelo.exception = exception;
-            ctx.render("empleado/crear.jte", Collections.singletonMap("modelo", modelo));
-        } else {
-            modelo.exception = exception;
-            ctx.render("empleado/crear.jte", Collections.singletonMap("modelo", modelo));
-            exception = null;
-        }
+        modelo.excepcion = excepcion;
+        excepcion = null;
+        ctx.render("empleado/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
-    public void crear(Context ctx) throws SQLException {
-        var legajo = ctx.formParamAsClass("legajo", String.class).get();
-        var dni = ctx.formParamAsClass("dni", Long.class).get();
-        var cuil = ctx.formParamAsClass("cuil", Long.class).get();
-        var apellidos = ctx.formParamAsClass("apellidos", String.class).get();
-        var nombres = ctx.formParamAsClass("nombres", String.class).get();
-        var ingreso = LocalDate.parse(ctx.formParamAsClass("ingreso", String.class).get());
-        var nacimiento = LocalDate.parse(ctx.formParamAsClass("nacimiento", String.class).get());
-
+    public void crear(Context ctx) throws Exception {
+        var legajo = ctx.formParam("legajo");
+        var dni = Long.parseLong(ctx.formParam("dni"));
+        var cuil = Long.parseLong(ctx.formParam("cuil"));
+        var apellidos = ctx.formParam("apellidos");
+        var nombres = ctx.formParam("nombres");
+        var ingreso = LocalDate.parse(ctx.formParam("ingreso"));
+        var nacimiento = LocalDate.parse(ctx.formParam("nacimiento"));
         Empleado empleado = new Empleado(legajo, dni, apellidos, nombres, ingreso, nacimiento, cuil);
-
         this.repositorio.iniciarTransaccion();
         try {
             this.repositorio.insertar(empleado);
             this.repositorio.confirmarTransaccion();
         } catch (Exception e) {
-            System.out.println(e);
-            exception = e;
             this.repositorio.descartarTransaccion();
+            e.printStackTrace();
+            excepcion = e.getCause().getCause().getMessage();
+            throw new Exception(excepcion);
         }
-
-        ctx.redirect("/empleados");
+        excepcion = "";
     }
 
-    public void modificar(Context ctx) throws SQLException {
+    public void modificar(Context ctx) {
         var modelo = new ModeloEmpleado();
-        modelo.empleado = this.repositorio.buscar(Empleado.class, (ctx.pathParamAsClass("id", Integer.class).get()));
-        if (exception == null) {
-            modelo.exception = exception;
-            ctx.render("empleado/editar.jte", Collections.singletonMap("modelo", modelo));
+        modelo.empleado = this.repositorio.buscar(Empleado.class, Integer.parseInt(ctx.pathParam("id")));
+        if (modelo.empleado != null) {
+            if (modelo.empleado.esValido()) {
+                modelo.excepcion = excepcion;
+                excepcion = null;
+                ctx.render("empleado/editar.jte", Collections.singletonMap("modelo", modelo));
+                return;
+            }
+            excepcion = "El empleado al que intentó acceder fue eliminado anteriormente";
         } else {
-            modelo.exception = exception;
-            ctx.render("empleado/editar.jte", Collections.singletonMap("modelo", modelo));
-            exception = null;
+            excepcion = "El empleado al que intentó acceder no existe";
         }
+        ctx.redirect("/empledos");
     }
 
-    public void actualizar(Context ctx) throws SQLException {
-        var legajo = ctx.formParamAsClass("legajo", String.class).get();
-        var dni = ctx.formParamAsClass("dni", Long.class).get();
-        var cuil = ctx.formParamAsClass("cuil", Long.class).get();
-        var apellidos = ctx.formParamAsClass("apellidos", String.class).get();
-        var nombres = ctx.formParamAsClass("nombres", String.class).get();
-        var ingreso = LocalDate.parse(ctx.formParamAsClass("ingreso", String.class).get());
-        var nacimiento = LocalDate.parse(ctx.formParamAsClass("nacimiento", String.class).get());
-
+    public void actualizar(Context ctx) throws Exception {
+        var legajo = ctx.formParam("legajo");
+        var dni = Long.parseLong(ctx.formParam("dni"));
+        var cuil = Long.parseLong(ctx.formParam("cuil"));
+        var apellidos = ctx.formParam("apellidos");
+        var nombres = ctx.formParam("nombres");
+        var ingreso = LocalDate.parse(ctx.formParam("ingreso"));
+        var nacimiento = LocalDate.parse(ctx.formParam("nacimiento"));
         Empleado empleado = this.repositorio.buscar(Empleado.class,
-                (ctx.pathParamAsClass("id", Integer.class).get()));
+            Integer.parseInt(ctx.pathParam("id")));
         if (empleado != null) {
             empleado.setLegajo(legajo);
             empleado.setDni(dni);
@@ -101,34 +99,77 @@ public class EmpleadosControlador {
             empleado.setNombres(nombres);
             empleado.setIngreso(ingreso);
             empleado.setNacimiento(nacimiento);
-
             this.repositorio.iniciarTransaccion();
             try {
-                this.repositorio.modificar(empleado);
+                this.repositorio.actualizar(empleado);
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
-                System.out.println(e);
-                exception = e;
                 this.repositorio.descartarTransaccion();
+                e.printStackTrace();
+                excepcion = e.getCause().getCause().getMessage();
+                throw new Exception(excepcion);
             }
+            excepcion = "";
+        } else {
+            excepcion = "El empleado a modificar no se ha encontrado o lo han eliminado";
+            throw new Exception(excepcion);
         }
-
-        ctx.redirect("/empleados");
     }
 
-    public void borrar(Context ctx) throws SQLException {
+    public void borrar(Context ctx) throws Exception {
         Empleado empleado = this.repositorio.buscar(Empleado.class,
-                (ctx.pathParamAsClass("id", Integer.class).get()));
+            Integer.parseInt(ctx.pathParam("id")));
         if (empleado != null) {
+            var cosechas = repositorio.buscarTodos(Cosecha.class);
+            for (int i = 0; i < cosechas.size(); i++) {
+                if (cosechas.get(i).esValido()) {
+                    for (var emple: cosechas.get(i).getEmpleados()) {
+                        if (empleado == emple) {
+                            excepcion = "Hay cosecha(s) que fueron realizada(s) por este empleado";
+                            throw new Exception(excepcion);
+                        }
+                    }
+                }
+            }
+            empleado.eliminar();
             this.repositorio.iniciarTransaccion();
             try {
-                this.repositorio.eliminar(Empleado.class, empleado);
+                this.repositorio.actualizar(empleado);
                 this.repositorio.confirmarTransaccion();
             } catch (Exception e) {
-                System.out.println(e);
-                exception = e;
                 this.repositorio.descartarTransaccion();
+                e.printStackTrace();
+                excepcion = e.getCause().getCause().getMessage();
+                throw new Exception(excepcion);
             }
+            eliminado = empleado.getIdEmpleado();
+            excepcion = "";
+        } else {
+            excepcion = "El empleado a eliminar no se encuentra en el sistema";
+            throw new Exception(excepcion);
+        }
+    }
+
+    public void recuperar(Context ctx) throws Exception {
+        Empleado empleado = this.repositorio.buscar(Empleado.class,
+            Integer.parseInt(ctx.formParam("id")));
+        if (empleado != null) {
+            empleado.recuperar();
+            this.repositorio.iniciarTransaccion();
+            try {
+                this.repositorio.actualizar(empleado);
+                this.repositorio.confirmarTransaccion();
+            } catch (Exception e) {
+                this.repositorio.descartarTransaccion();
+                e.printStackTrace();
+                excepcion = e.getCause().getCause().getMessage();
+                throw new Exception(excepcion);
+            }
+            eliminado = empleado.getIdEmpleado();
+            excepcion = null;
+        } else {
+            excepcion = "No se puede recuperar el empleado deseado";
+            throw new Exception(excepcion);
         }
     }
 }
