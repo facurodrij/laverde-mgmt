@@ -511,7 +511,7 @@ public class CuadrosControlador {
         Cuadro cuadro = this.repositorio.buscar(Cuadro.class, Integer.parseInt(ctx.pathParam("id")));
         if (cuadro != null) {
             var cuadros = this.repositorio.buscarTodos(Cuadro.class);
-            double[][] unos = new double[2][cuadro.getCantidadPuntos()];
+            double[][] unos = new double[2][puntos.getNumPositions()];
             for (int i = 0; i < unos[0].length; i++) {
                 unos[0][i] = puntos.getPositionN(i).getLon();
                 unos[1][i] = puntos.getPositionN(i).getLat();
