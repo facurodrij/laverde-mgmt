@@ -23,3 +23,7 @@ Cambiando los atributos value por los valores que sean correctos acorde a su con
 
 5. Ejecutar el programa App.java, en nuestro caso utilizamos el IDE de Visual Studio Code con la extensión "Extension Pack for Java" instalada.
 6. Si siguió los pasos correctamente debe ingresar a su navegador y en la barra de navegación ingresar http://localhost:7000/ y debería poder ver la interfaz del sistema.
+
+### Video de instalación
+
+[![Watch the video](https://img.youtube.com/vi/XM8HLjinrVE/default.jpg)](https://www.youtube.com/watch?v=XM8HLjinrVE)
