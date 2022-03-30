@@ -13,7 +13,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/productores");
+                location.replace("/admin/productores");
             })
             .fail(function () {
                 location.reload();

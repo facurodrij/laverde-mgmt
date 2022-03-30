@@ -12,50 +12,26 @@
     <nav class="mt-2">
       <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
         <li class="nav-item">
-          <a href="/productores" class="nav-link">
-            <i class="nav-icon fas fa-tractor"></i>
-            <p>
-              Productores
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/lotes" class="nav-link">
-            <i class="nav-icon fas fa-border-all"></i>
-            <p>
-              Lotes
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/cuadros" class="nav-link">
-            <i class="nav-icon fab fa-buromobelexperte"></i>
-            <p>
-              Cuadros
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/empleados" class="nav-link">
+          <a href="/admin" class="nav-link">
             <i class="nav-icon fas fa-id-card"></i>
             <p>
-              Empleados
+              Administrador
             </p>
           </a>
         </li>
         <li class="nav-item">
-          <a href="/secaderos" class="nav-link">
+          <a href="/productor" class="nav-link">
+            <i class="nav-icon fas fa-tractor"></i>
+            <p>
+              Productor
+            </p>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="/secadero" class="nav-link">
             <i class="nav-icon fas fa-warehouse"></i>
             <p>
-              Secaderos
-            </p>
-          </a>
-        </li>
-        <li class="nav-item">
-          <a href="/cosechas" class="nav-link">
-            <i class="nav-icon fas fa-seedling"></i>
-            <p>
-              Cosechas
+              Secadero
             </p>
           </a>
         </li>

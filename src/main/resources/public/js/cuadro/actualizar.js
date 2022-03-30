@@ -14,7 +14,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/cuadros");
+                location.replace("/admin/cuadros");
             })
             .fail(function () {
                 location.reload();

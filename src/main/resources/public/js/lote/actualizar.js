@@ -15,7 +15,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/lotes");
+                location.replace("/admin/lotes");
             })
             .fail(function () {
                 location.reload();

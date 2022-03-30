@@ -30,7 +30,7 @@ public class AppTest extends Testeo {
     public static void iniciarApp() {
         App.main(null);
     }
-
+/*
     @Test
     public void validarUsuario_guarda_cookie() {
         Context ctx = mock(Context.class);
@@ -54,7 +54,7 @@ public class AppTest extends Testeo {
         // Entonces el contexto debe redireccionar la dirreccion actual a '/'
         then(ctx).should().redirect("/");
     }
-
+*/
     @Test
     public void mostrarIndex_sin_usuario() {
         HttpResponse<String> respuesta = Unirest.get("http://localhost:7000/").asString();

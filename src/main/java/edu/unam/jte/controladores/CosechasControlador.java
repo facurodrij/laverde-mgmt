@@ -21,6 +21,11 @@ public class CosechasControlador {
     }
 
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCosechas();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -32,10 +37,15 @@ public class CosechasControlador {
                 modelo.cosechas.remove(i);
             }
         }
-        ctx.render("cosecha/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/cosecha/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCosecha();
         modelo.excepcion = excepcion;
         excepcion = null;
@@ -57,7 +67,7 @@ public class CosechasControlador {
                 modelo.secaderos.remove(i);
             }
         }
-        ctx.render("cosecha/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/cosecha/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
@@ -90,6 +100,11 @@ public class CosechasControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCosecha();
         modelo.cosecha = this.repositorio.buscar(Cosecha.class,
             Integer.parseInt(ctx.pathParam("id")));
@@ -115,14 +130,14 @@ public class CosechasControlador {
                         modelo.secaderos.remove(i);
                     }
                 }
-                ctx.render("cosecha/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/cosecha/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "La cosecha a la que intentó acceder fue eliminada anteriormente";
         } else {
             excepcion = "La cosecha a la que intentó acceder no existe"; 
         }
-        ctx.redirect("/cosechas");
+        ctx.redirect("/admin/cosechas");
     }
 
     public void actualizar(Context ctx) throws Exception {

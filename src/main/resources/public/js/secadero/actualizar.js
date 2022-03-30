@@ -12,7 +12,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/secaderos");
+                location.replace("/admin/secaderos");
             })
             .fail(function () {
                 location.reload();

@@ -25,34 +25,33 @@
           <!-- Default box -->
           <div class="card">
             <div class="card-header">
-              <h3 class="card-title">Title</h3>
-
-              <div class="card-tools">
-                <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-                  <i class="fas fa-minus"></i>
+              <h3 class="card-title">Menú Principal</h3>
+            </div>
+            <div class="card-body">
+              <h2><b> Bienvenido </b></h2>
+              <h3>
+                Por favor, elija alguno de los siguientes tipos de usuarios para
+                iniciar sesión.
+              </h3>
+              <div style="margin-top:20px;">
+                <button type="button" class="btn btn-warning" onClick="redireccionar(&quot;admin&quot;)">
+                  Iniciar sesión como administrador
                 </button>
-                <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-                  <i class="fas fa-times"></i>
+              </div>
+              <div style="margin-top:20px;">
+                <button type="button" class="btn btn-success" onClick="redireccionar(&quot;productor&quot;)">
+                  Iniciar sesión como productor
+                </button>
+              </div>
+              <div style="margin-top:20px;">
+                <button type="button" class="btn btn-primary" onClick="redireccionar(&quot;secadero&quot;)">
+                  Iniciar sesión como secadero
                 </button>
               </div>
             </div>
-            <div class="card-body">
-              @if (!modelo.nombreUsuario.trim().isEmpty())
-              <h2><b> Hola ${modelo.nombreUsuario}! </b></h2>
-              @else
-              <form action="/" method="post" onsubmit="return validarUsuario();">
-                <div class="form-group row">
-                  <label class="col-sm-2 col-form-label"> Usuario </label>
-                  <input class="form-control col-sm-4" type="text" placeholder="nombre del usuario" id="nombreUsuario"
-                    name="nombreUsuario" />
-                </div>
-                <button class="btn btn-primary"> Ingresar </button>
-              </form>
-              @endif
-            </div>
             <!-- /.card-body -->
             <div class="card-footer">
-              Footer
+              Gracias por utilizar Laverdesa
             </div>
             <!-- /.card-footer-->
           </div>
@@ -64,5 +63,7 @@
   <!-- /.content -->
 </div>
 <!-- /.content-wrapper -->
+
+<script src="/js/index.js"></script>
 
 @tag.footer()

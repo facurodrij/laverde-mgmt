@@ -32,7 +32,7 @@ public class Cuadro {
     private Lote lote;
 
     @ManyToMany(targetEntity = Cosecha.class, mappedBy = "cuadros")
-    private List<Cosecha> cosechas;
+    private List<Cosecha> cosechas = new ArrayList<>();
 
     /*
      * Aunque este constructor no deba usarse, es necesario para el funcionamiento del sistema;
@@ -42,14 +42,12 @@ public class Cuadro {
         this.lote = new Lote();
         this.puntos = new LineString<>(WGS84);
         this.descripcion = new String(); // Esto evita el uso indebido de este constructor
-        this.cosechas = new ArrayList<>();
     }
 
     public Cuadro(Lote lote, LineString<G2D> puntos, @NotBlank String descripcion) {
         this.lote = lote;
         this.puntos = puntos;
         this.descripcion = descripcion;
-        this.cosechas = new ArrayList<>();
     }
 
     public int getIdCuadro() {

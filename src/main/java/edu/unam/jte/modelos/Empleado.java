@@ -47,24 +47,24 @@ public class Empleado {
     private LocalDate nacimiento;
 
     public Empleado() {
-        this.setLegajo("");
-        this.setDni((long) 0);
-        this.setApellidos("");
-        this.setNombres("");
-        this.setIngreso(LocalDate.now());
-        this.setNacimiento(LocalDate.now());
-        this.setCuil((long) 0);
+        this.legajo = "";
+        this.dni = 0l;
+        this.apellidos = "";
+        this.nombres = "";
+        this.ingreso = LocalDate.now();
+        this.nacimiento = LocalDate.now();
+        this.cuil = 0l;
     }
 
     public Empleado(String legajo, long dni, String apellidos, String nombres, LocalDate ingreso, LocalDate nacimiento,
             long cuil) {
-        this.setLegajo(legajo);
-        this.setDni(dni);
-        this.setApellidos(apellidos);
-        this.setNombres(nombres);
-        this.setIngreso(ingreso);
-        this.setNacimiento(nacimiento);
-        this.setCuil(cuil);
+        this.legajo = legajo;
+        this.dni = dni;
+        this.apellidos = apellidos;
+        this.nombres = nombres;
+        this.ingreso = ingreso;
+        this.nacimiento = nacimiento;
+        this.cuil = cuil;
     }
 
     public int getIdEmpleado() {

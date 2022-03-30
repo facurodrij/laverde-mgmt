@@ -17,7 +17,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/cosechas");
+                location.replace("/admin/cosechas");
             })
             .fail(function () {
                 location.reload();

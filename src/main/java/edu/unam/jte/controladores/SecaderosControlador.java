@@ -8,7 +8,7 @@ import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.*;
 import edu.unam.jte.paginas.*;
 
-public class SecaderosControlador {
+public class SecaderosControlador extends cuitControlador {
     private Repositorio repositorio;
 
     private String excepcion = null;
@@ -20,6 +20,11 @@ public class SecaderosControlador {
     }
 
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloSecaderos();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -31,18 +36,27 @@ public class SecaderosControlador {
                 modelo.secaderos.remove(i);
             }
         }
-        ctx.render("secadero/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/secadero/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloSecadero();
         modelo.excepcion = excepcion;
         excepcion = null;
-        ctx.render("secadero/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/secadero/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
         var cuit = Long.valueOf(ctx.formParam("cuit"));
+        if (!(cuitValido(cuit))) {
+            excepcion = "El CUIT no es válido";
+            throw new Exception(excepcion);
+        }
         var razonSocial = ctx.formParam("razonSocial");
         Secadero secadero = new Secadero(cuit, razonSocial);
         this.repositorio.iniciarTransaccion();
@@ -59,24 +73,33 @@ public class SecaderosControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloSecadero();
         modelo.secadero = this.repositorio.buscar(Secadero.class, Integer.valueOf(ctx.pathParam("id")));
         if (modelo.secadero != null) {
             if (modelo.secadero.esValido()) {
                 modelo.excepcion = excepcion;
                 excepcion = null;
-                ctx.render("secadero/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/secadero/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "El secadero al que intentó acceder fue eliminado anteriormente";
         } else {
             excepcion = "El secadero al que intentó acceder no existe";      
         }
-        ctx.redirect("/lotes");
+        ctx.redirect("/admin/lotes");
     }
 
     public void actualizar(Context ctx) throws Exception {
         var cuit = Long.valueOf(ctx.formParam("cuit"));
+        if (!(cuitValido(cuit))) {
+            excepcion = "El CUIT no es válido";
+            throw new Exception(excepcion);
+        }
         var razonSocial = ctx.formParam("razonSocial");
         Secadero secadero = this.repositorio.buscar(Secadero.class,
                 Integer.valueOf(ctx.pathParam("id")));

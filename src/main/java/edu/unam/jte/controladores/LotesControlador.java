@@ -49,6 +49,11 @@ public class LotesControlador {
     }
 
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloLotes();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -60,10 +65,15 @@ public class LotesControlador {
                 modelo.lotes.remove(i);
             }
         }
-        ctx.render("lote/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/lote/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloLote();
         modelo.excepcion = excepcion;
         excepcion = null;
@@ -73,7 +83,7 @@ public class LotesControlador {
                 modelo.productores.remove(i);
             }
         }
-        ctx.render("lote/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/lote/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
@@ -117,6 +127,11 @@ public class LotesControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloLote();
         modelo.lote = this.repositorio.buscar(Lote.class, Integer.parseInt(ctx.pathParam("id")));
         if (modelo.lote != null) {
@@ -129,14 +144,14 @@ public class LotesControlador {
                         modelo.productores.remove(i);
                     }
                 }
-                ctx.render("lote/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/lote/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "El lote al que intentó acceder fue eliminado anteriormente";
         } else {
             excepcion = "El lote al que intentó acceder no existe";
         }
-        ctx.redirect("/lotes");
+        ctx.redirect("/admin/lotes");
     }
 
     public void actualizar(Context ctx) throws Exception {

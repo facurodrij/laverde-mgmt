@@ -17,48 +17,47 @@ public class Cosecha {
     private boolean valido = true;
 
     @Positive
-    @Column(nullable = false)
+    @NotNull
     private float pesoEntrega;
 
     @PastOrPresent
-    @Column(nullable = false)
+    @NotNull
     private LocalDate tiempoEntrega;
 
     @Positive
-    @Column(nullable = false)
+    @NotNull
     private float pesoRegistro;
 
     @PastOrPresent
-    @Column(nullable = false)
+    @NotNull
     private LocalDate tiempoRegistro;
 
     @ManyToMany(targetEntity = Cuadro.class)
     private List<Cuadro> cuadros = new ArrayList<>();
 
     @ManyToMany(targetEntity = Empleado.class)
-    private List<Empleado> empleados;
+    private List<Empleado> empleados = new ArrayList<>();
 
     @ManyToOne(targetEntity = Secadero.class)
+    @NotNull
     private Secadero secadero;
 
     public Cosecha(){
-        this.setPesoEntrega(0);
-        this.setTiempoEntrega(null);
-        this.setPesoRegistro(0);
-        this.setTiempoRegistro(null);
-        this.setCuadros(null);
-        this.setEmpleados(null);
-        this.setSecadero(null);
+        this.pesoEntrega = 0;
+        this.tiempoEntrega = LocalDate.now();
+        this.pesoRegistro = 0;
+        this.tiempoRegistro = LocalDate.now();
+        this.secadero = null;
     }
 
     public Cosecha(float pesoEntrega, LocalDate tiempoEntrega, float pesoRegistro, LocalDate tiempoRegistro, List<Cuadro> cuadros, List<Empleado> empleados, Secadero secadero) {
-        this.setPesoEntrega(pesoEntrega);
-        this.setTiempoEntrega(tiempoEntrega);
-        this.setPesoRegistro(pesoRegistro);
-        this.setTiempoRegistro(tiempoRegistro);
-        this.setCuadros(cuadros);
-        this.setEmpleados(empleados);
-        this.setSecadero(secadero);
+        this.pesoEntrega = pesoEntrega;
+        this.tiempoEntrega = tiempoEntrega;
+        this.pesoRegistro = pesoRegistro;
+        this.tiempoRegistro = tiempoRegistro;
+        this.cuadros = cuadros;
+        this.empleados = empleados;
+        this.secadero = secadero;
     }
 
     public int getIdCosecha() {
@@ -91,6 +90,10 @@ public class Cosecha {
 
     public Secadero getSecadero() {
         return this.secadero;
+    }
+
+    public float getDiferenciaPeso() {
+        return this.pesoEntrega - this.pesoRegistro;
     }
 
     public void setPesoEntrega(float pesoEntrega) {

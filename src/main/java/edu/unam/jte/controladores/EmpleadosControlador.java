@@ -20,7 +20,74 @@ public class EmpleadosControlador {
         this.repositorio = repositorio;
     }
 
+    private long digito(long numero, int digi) {
+        long exacto = 1;
+        for (int i = 1; i <= digi; i++) {
+            exacto *= 10;
+        }
+        long masUno = exacto * 10;
+        if (digi < 0) {
+            return 0;
+        }
+        System.out.println(numero % masUno);
+        System.out.println(numero % masUno / exacto);
+        return numero / exacto % masUno;
+    }
+
+    private boolean cuilValido(long cuil) {
+        if (cuil < 0) {
+            return false;
+        }
+        switch ((int)(cuil / 1000000000)) {
+            case 20: break;
+            case 23: break;
+            case 24: break;
+            case 27: break;
+            default: return false;
+        }
+        long original = 0;
+        long codigo = 5432765432l;
+        long suma = 0;
+        if (cuil / 1000000000l == 23) {
+            switch ((int)(cuil % 10)) {
+                case 9: original = (cuil % 1000000000l) + 20000000000l; break;
+                case 4: original = (cuil % 1000000000l) + 27000000000l; break;
+                case 3: original = (cuil % 1000000000l) + 24000000000l;
+            }
+            for (int i = 0; i < 10; i++) {
+                suma = suma + (digito(original, i+1) * digito(codigo, i));
+            }
+            if ((11 - (suma % 11)) == 1) {
+                return true;
+            }
+            return false;
+        }
+        switch ((int)(cuil / 1000000000)) {
+            case 20: if ((cuil % 11) == 9) {return false;} break;
+            case 27: if ((cuil % 11) == 4) {return false;} break;
+            case 24: if ((cuil % 11) == 3) {return false;}
+        }
+        for (int i = 0; i < 10; i++) {
+            suma = suma + digito(cuil, i+1) * digito(codigo, i);
+        }
+        switch (11 - (int)(suma % 11)) {
+            case 0: return false;
+            case 11: suma = 0; break;
+            case 10: suma = 1; break;
+            default: suma = 11-(suma % 11);
+        }
+        if (suma != (cuil % 10)) {
+            return false;
+        }
+        return true;
+    }
+
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloEmpleados();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -32,20 +99,31 @@ public class EmpleadosControlador {
                 modelo.empleados.remove(i);
             }
         }
-        ctx.render("empleado/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/empleado/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloEmpleado();
         modelo.excepcion = excepcion;
         excepcion = null;
-        ctx.render("empleado/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/empleado/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
-        var legajo = ctx.formParam("legajo");
-        var dni = Long.parseLong(ctx.formParam("dni"));
         var cuil = Long.parseLong(ctx.formParam("cuil"));
+        int dni = 0;
+        if (cuilValido(cuil)) {
+            dni = (int)(cuil % 1000000000 / 10);
+        } else {
+            excepcion = "El CUIL no es válido";
+            throw new Exception(excepcion);
+        }
+        var legajo = ctx.formParam("legajo");
         var apellidos = ctx.formParam("apellidos");
         var nombres = ctx.formParam("nombres");
         var ingreso = LocalDate.parse(ctx.formParam("ingreso"));
@@ -65,26 +143,37 @@ public class EmpleadosControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloEmpleado();
         modelo.empleado = this.repositorio.buscar(Empleado.class, Integer.parseInt(ctx.pathParam("id")));
         if (modelo.empleado != null) {
             if (modelo.empleado.esValido()) {
                 modelo.excepcion = excepcion;
                 excepcion = null;
-                ctx.render("empleado/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/empleado/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "El empleado al que intentó acceder fue eliminado anteriormente";
         } else {
             excepcion = "El empleado al que intentó acceder no existe";
         }
-        ctx.redirect("/empledos");
+        ctx.redirect("/empleados");
     }
 
     public void actualizar(Context ctx) throws Exception {
-        var legajo = ctx.formParam("legajo");
-        var dni = Long.parseLong(ctx.formParam("dni"));
         var cuil = Long.parseLong(ctx.formParam("cuil"));
+        int dni = 0;
+        if (cuilValido(cuil)) {
+            dni = (int)(cuil % 1000000000 / 10);
+        } else {
+            excepcion = "El CUIL no es válido";
+            throw new Exception(excepcion);
+        }
+        var legajo = ctx.formParam("legajo");
         var apellidos = ctx.formParam("apellidos");
         var nombres = ctx.formParam("nombres");
         var ingreso = LocalDate.parse(ctx.formParam("ingreso"));

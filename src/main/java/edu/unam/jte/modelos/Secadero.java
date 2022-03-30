@@ -15,32 +15,26 @@ public class Secadero {
     @NotNull
     private boolean valido = true;
 
-    @Column(nullable = false, unique = true)
+    @NotNull
+    @Column(unique = true)
     private long cuit;
     
-    @Column(nullable = false)
+    @NotNull
+    @NotBlank
+    @Size(max=75)
     private String razonSocial;
 
     @OneToMany(targetEntity = Cosecha.class, mappedBy = "secadero")
-    private List<Cosecha> cosechas;
+    private List<Cosecha> cosechas = new ArrayList<>();
 
     public Secadero() {
-        this.setCuit(0);
-        this.setRazonSocial("");
-        ;
-        this.cosechas = new ArrayList<>();
+        this.cuit = 0;
+        this.razonSocial = "";
     }
 
     public Secadero(long cuit, String razonSocial) {
-        this.setCuit(cuit);
-        this.setRazonSocial(razonSocial);
-        this.cosechas = new ArrayList<>();
-    }
-
-    public Secadero(long cuit, String razonSocial, List<Cosecha> cosechas) {
-        this.setCuit(cuit);
-        this.setRazonSocial(razonSocial);
-        this.setCosechas(cosechas);
+        this.cuit = cuit;
+        this.razonSocial = razonSocial;
     }
 
     public int getIdSecadero() {

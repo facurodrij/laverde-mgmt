@@ -8,7 +8,7 @@ import edu.unam.jte.repositorios.Repositorio;
 import edu.unam.jte.modelos.*;
 import edu.unam.jte.paginas.*;
 
-public class ProductoresControlador {
+public class ProductoresControlador extends cuitControlador {
     private Repositorio repositorio;
 
     private String excepcion = null;
@@ -20,6 +20,11 @@ public class ProductoresControlador {
     }
 
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloProductores();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -31,18 +36,27 @@ public class ProductoresControlador {
                 modelo.productores.remove(i);
             }
         }
-        ctx.render("productor/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/productor/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloProductor();
         modelo.excepcion = excepcion;
         excepcion = null;
-        ctx.render("productor/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/productor/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
         var cuit = Long.parseLong(ctx.formParam("cuit"));
+        if (!(cuitValido(cuit))) {
+            excepcion = "El CUIT no es válido";
+            throw new Exception(excepcion);
+        }
         var apellidos = ctx.formParam("apellidos");
         var nombres = ctx.formParam("nombres");
         Productor productor = new Productor(cuit, apellidos, nombres);
@@ -60,24 +74,33 @@ public class ProductoresControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloProductor();
         modelo.productor = this.repositorio.buscar(Productor.class, Integer.parseInt(ctx.pathParam("id")));
         if (modelo.productor != null) {
             if (modelo.productor.esValido()) {
                 modelo.excepcion = excepcion;
                 excepcion = null;
-                ctx.render("productor/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/productor/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "El productor al que intentó acceder fue eliminado anteriormente";
         } else {
             excepcion = "El productor al que intentó acceder no existe"; 
         }
-        ctx.redirect("/productores");
+        ctx.redirect("/admin/productores");
     }
 
     public void actualizar(Context ctx) throws Exception {
         var cuit = Long.parseLong(ctx.formParam("cuit"));
+        if (!(cuitValido(cuit))) {
+            excepcion = "El CUIT no es válido";
+            throw new Exception(excepcion);
+        }
         var apellidos = ctx.formParam("apellidos");
         var nombres = ctx.formParam("nombres");
         Productor productor = this.repositorio.buscar(Productor.class,

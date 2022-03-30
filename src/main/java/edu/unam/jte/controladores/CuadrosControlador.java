@@ -32,8 +32,7 @@ public class CuadrosControlador {
      *               la coordenada X en el punto i y [1][i] es la coordenada Y.
      * @return Devuelve la figura creada.
      * @throws Exception puede ocurrir por parámetros inválidos o mala formación de
-     *                   lote
-     *                   (sea por formar una simple línea o porque la figura no se
+     *                   lote (sea por formar una simple línea o porque la figura no se
      *                   cierra correctamente).
      */
     private LineString<G2D> crearPuntos(double[][] puntos) throws Exception {
@@ -71,6 +70,268 @@ public class CuadrosControlador {
     }
 
     /**
+     * Sirve para determinar si una figura tiene algún punto repetido o
+     * las líneas que lo conforman se cruzan, a través de comparación
+     * de las rectas que forman cada par de puntos adyacentes de un cuadro.
+     * 
+     * @param p es una matriz de puntos de una figura, donde [0][i] representa
+     *          la coordenada X en el punto i y [1][i] es la coordenada Y.
+     * @return Se devuelve verdadero si la figura forma una geometría válida,
+     *         sino se retorna falso.
+     */
+    private boolean esGeometria(double[][] p) {
+        double[][] f0 = new double[p[0].length - 1][2];
+        double x0, x1, y0, y1;
+        boolean inversa;
+        for (int i = 1; i < p[0].length; i++) {
+            x0 = p[0][i - 1];
+            x1 = p[0][i];
+            y0 = p[1][i - 1];
+            y1 = p[1][i];
+            inversa = (x1 == x0);
+            f0[i - 1][0] = inversa ? 0 : ((y1 - y0) / (x1 - x0)); // pendiente
+            f0[i - 1][1] = inversa ? x0 : ((y1 == y0) ? y0 : (y1 - y0 - (f0[i - 1][0] * (x1 - x0)))); // origen
+        }
+        if (p[0][0] == p[0][1] &&
+            p[1][0] == p[1][1])
+        {
+            return false;
+        }
+        if (p[0][0] == p[0][f0.length-1] &&
+            p[1][0] == p[1][f0.length-1])
+        {
+            return false;
+        }
+        if (p[0][1] == p[0][f0.length-1] &&
+            p[1][1] == p[1][f0.length-1])
+        {
+            return false;
+        }
+        if (p[0][1] == p[0][f0.length] &&
+            p[1][1] == p[1][f0.length])
+        {
+            return false;
+        }
+        if (p[0][f0.length-1] == p[0][f0.length] &&
+            p[1][f0.length-1] == p[1][f0.length])
+        {
+            return false;
+        }
+        if (f0[0][0] == f0[f0.length-1][0]) {
+            x0 = p[0][1] - p[0][0];
+            x1 = p[0][f0.length] - p[0][f0.length-1];
+            if ((x0 == 0 && x1 == 0) || !(x0 == 0 || x1 == 0)) {
+                return false;
+            }
+        }
+        if (p[0][0] == p[0][2] &&
+            p[1][0] == p[1][2])
+        {
+            return false;
+        }
+        if (p[0][1] == p[0][2] &&
+            p[1][1] == p[1][2])
+        {
+            return false;
+        }
+        if (f0[0][0] == f0[1][0]) {
+            x0 = p[0][1] - p[0][0];
+            x1 = p[0][2] - p[0][1];
+            if ((x0 == 0 && x1 == 0) || !(x0 == 0 || x1 == 0)) {
+                return false;
+            }
+        }
+        for (int j = 2; j < f0.length-1; j++) {
+            if (p[0][0] == p[0][j] &&
+                p[1][0] == p[1][j])
+            {
+                return false;
+            }
+            if (p[0][0] == p[0][j+1] &&
+                p[1][0] == p[1][j+1])
+            {
+                return false;
+            }
+            if (p[0][1] == p[0][j] &&
+                p[1][1] == p[1][j])
+            {
+                return false;
+            }
+            if (p[0][1] == p[0][j+1] &&
+                p[1][1] == p[1][j+1])
+            {
+                return false;
+            }
+            if (p[0][j] == p[0][j+1] &&
+                p[1][j] == p[1][j+1])
+            {
+                return false;
+            }
+            x0 = p[0][1] - p[0][0];
+            x1 = p[0][j + 1] - p[0][j];
+            if (x0 == 0) {
+                if (x1 == 0) {
+                    if (f0[0][1] == f0[j][1]) {
+                        y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                        y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                        if ((p[1][0] >= y0 && p[1][0] <= y1) ||
+                                (p[1][1] >= y0 && p[1][1] <= y1)) {
+                            return false;
+                        }
+                    }
+                } else {
+                    x0 = (p[0][j] < p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                    x1 = (p[0][j] > p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                    if (f0[0][1] >= x0 && f0[0][1] <= x1) {
+                        x0 = f0[j][0] * f0[0][1] + f0[j][1];
+                        y0 = (p[1][0] < p[1][1]) ? p[1][0] : p[1][1];
+                        y1 = (p[1][0] > p[1][1]) ? p[1][0] : p[1][1];
+                        if (x0 >= y0 && x0 <= y1) {
+                            return false;
+                        }
+                    }
+                }
+            } else {
+                if (x1 == 0) {
+                    x0 = (p[0][0] < p[0][1]) ? p[0][0] : p[0][1];
+                    x1 = (p[0][0] > p[0][1]) ? p[0][0] : p[0][1];
+                    if (f0[j][1] >= x0 && f0[j][1] <= x1) {
+                        x0 = f0[0][0] * f0[j][1] + f0[0][1];
+                        y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                        y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                        if (x0 >= y0 && x0 <= y1) {
+                            return false;
+                        }
+                    }
+                } else {
+                    if (f0[0][0] == f0[j][0]) {
+                        if (f0[0][1] == f0[j][1]) {
+                            y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            if ((p[1][0] >= y0 && p[1][0] <= y1) ||
+                                    (p[1][1] >= y0 && p[1][1] <= y1)) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        x0 = (p[0][0] < p[0][1]) ? p[0][0] : p[0][1];
+                        x1 = (p[0][0] > p[0][1]) ? p[0][0] : p[0][1];
+                        y0 = (p[0][j] < p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                        y1 = (p[0][j] > p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                        if (x0 <= y1 && y0 <= x1) {
+                            x0 = (x0 > y0) ? x0 : y0;
+                            x1 = (x1 < y1) ? x1 : y1;
+                            y0 = (f0[j][1] - f0[0][1]) / (f0[j][0] - f0[0][0]);
+                            if (y0 >= x0 && y0 <= x1) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        for (int i = 1; i < f0.length-1; i++) {
+            if (p[0][i] == p[0][i+2] &&
+                p[1][i] == p[1][i+2])
+            {
+                return false;
+            }
+            if (f0[i][0] == f0[i+1][0]) {
+                x0 = p[0][i+1] - p[0][i];
+                x1 = p[0][i+2] - p[0][i+1];
+                if ((x0 == 0 && x1 == 0) || !(x0 == 0 || x1 == 0)) {
+                    return false;
+                }
+            }
+            for (int j = i+2; j < f0.length; j++) {
+                if (p[0][i] == p[0][j] &&
+                    p[1][i] == p[1][j])
+                {
+                    return false;
+                }
+                if (p[0][i] == p[0][j+1] &&
+                    p[1][i] == p[1][j+1])
+                {
+                    return false;
+                }
+                if (p[0][i+1] == p[0][j] &&
+                    p[1][i+1] == p[1][j])
+                {
+                    return false;
+                }
+                if (p[0][i+1] == p[0][j+1] &&
+                    p[1][i+1] == p[1][j+1])
+                {
+                    return false;
+                }
+                x0 = p[0][i + 1] - p[0][i];
+                x1 = p[0][j + 1] - p[0][j];
+                if (x0 == 0) {
+                    if (x1 == 0) {
+                        if (f0[i][1] == f0[j][1]) {
+                            y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            if ((p[1][i] >= y0 && p[1][i] <= y1) ||
+                                    (p[1][i + 1] >= y0 && p[1][i + 1] <= y1)) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        x0 = (p[0][j] < p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                        x1 = (p[0][j] > p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                        if (f0[i][1] >= x0 && f0[i][1] <= x1) {
+                            x0 = f0[j][0] * f0[i][1] + f0[j][1];
+                            y0 = (p[1][i] < p[1][i + 1]) ? p[1][i] : p[1][i + 1];
+                            y1 = (p[1][i] > p[1][i + 1]) ? p[1][i] : p[1][i + 1];
+                            if (x0 >= y0 && x0 <= y1) {
+                                return false;
+                            }
+                        }
+                    }
+                } else {
+                    if (x1 == 0) {
+                        x0 = (p[0][i] < p[0][i + 1]) ? p[0][i] : p[0][i + 1];
+                        x1 = (p[0][i] > p[0][i + 1]) ? p[0][i] : p[0][i + 1];
+                        if (f0[j][1] >= x0 && f0[j][1] <= x1) {
+                            x0 = f0[i][0] * f0[j][1] + f0[i][1];
+                            y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                            if (x0 >= y0 && x0 <= y1) {
+                                return false;
+                            }
+                        }
+                    } else {
+                        if (f0[i][0] == f0[j][0]) {
+                            if (f0[i][1] == f0[j][1]) {
+                                y0 = (p[1][j] < p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                                y1 = (p[1][j] > p[1][j + 1]) ? p[1][j] : p[1][j + 1];
+                                if ((p[1][i] >= y0 && p[1][i] <= y1) ||
+                                        (p[1][i + 1] >= y0 && p[1][i + 1] <= y1)) {
+                                    return false;
+                                }
+                            }
+                        } else {
+                            x0 = (p[0][i] < p[0][i + 1]) ? p[0][i] : p[0][i + 1];
+                            x1 = (p[0][i] > p[0][i + 1]) ? p[0][i] : p[0][i + 1];
+                            y0 = (p[0][j] < p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                            y1 = (p[0][j] > p[0][j + 1]) ? p[0][j] : p[0][j + 1];
+                            if (x0 <= y1 && y0 <= x1) {
+                                x0 = (x0 > y0) ? x0 : y0;
+                                x1 = (x1 < y1) ? x1 : y1;
+                                y0 = (f0[j][1] - f0[i][1]) / (f0[j][0] - f0[i][0]);
+                                if (y0 >= x0 && y0 <= x1) {
+                                    return false;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
      * Sirve para determinar si dos figuras tienen algún punto de común o
      * una de ellas de contiene dentro de la otra, a través de comparación
      * de las rectas que forman cada par de puntos adyacentes de los cuadros.
@@ -87,8 +348,7 @@ public class CuadrosControlador {
         double[][] f1 = new double[otros[0].length - 1][2];
         double x0, x1, y0, y1;
         boolean inversa;
-        // Primero, se obtienen las pendientes y los origenes que forman las líneas de
-        // "unos"
+        // Primero, se obtienen las pendientes y los origenes que forman las líneas de "unos"
         for (int i = 1; i < unos[0].length; i++) {
             x0 = unos[0][i - 1];
             x1 = unos[0][i];
@@ -98,8 +358,7 @@ public class CuadrosControlador {
             f0[i - 1][0] = inversa ? 0 : ((y1 - y0) / (x1 - x0)); // pendiente
             f0[i - 1][1] = inversa ? x0 : ((y1 == y0) ? y0 : (y1 - y0 - (f0[i - 1][0] * (x1 - x0)))); // origen
         }
-        // Después, se obtienen las pendientes y los origenes que forman las líneas de
-        // "otros"
+        // Después, se obtienen las pendientes y los origenes que forman las líneas de "otros"
         for (int i = 1; i < otros[0].length; i++) {
             x0 = otros[0][i - 1];
             x1 = otros[0][i];
@@ -134,7 +393,7 @@ public class CuadrosControlador {
                              * En caso de existir al menos un punto que tenga valor del eje Y
                              * compartido entre ambas líneas, se concluye que hay solapamiento
                              */
-                            if ((unos[1][i] >= y0 && unos[1][i + 1] <= y1) ||
+                            if ((unos[1][i] >= y0 && unos[1][i] <= y1) ||
                                     (unos[1][i + 1] >= y0 && unos[1][i + 1] <= y1)) {
                                 return true;
                             }
@@ -208,7 +467,7 @@ public class CuadrosControlador {
                                  * valor del eje Y compartido entre ambas líneas,
                                  * se concluye que hay solapamiento
                                  */
-                                if ((unos[1][i] >= y0 && unos[1][i + 1] <= y1) ||
+                                if ((unos[1][i] >= y0 && unos[1][i] <= y1) ||
                                         (unos[1][i + 1] >= y0 && unos[1][i + 1] <= y1)) {
                                     return true;
                                 }
@@ -238,7 +497,7 @@ public class CuadrosControlador {
                                  * Aquí ya se evalúa si el cruce de funciones lineales ocurre
                                  * dentro de las líneas de "unos" y "otros"
                                  */
-                                if (y0 > x0 && y0 < x1) {
+                                if (y0 >= x0 && y0 <= x1) {
                                     return true;
                                 }
                             }
@@ -376,6 +635,11 @@ public class CuadrosControlador {
     }
 
     public void listar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCuadros();
         modelo.eliminado = eliminado;
         modelo.excepcion = excepcion;
@@ -387,10 +651,15 @@ public class CuadrosControlador {
                 modelo.cuadros.remove(i);
             }
         }
-        ctx.render("cuadro/listar.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/cuadro/listar.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void nuevo(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCuadro();
         modelo.excepcion = excepcion;
         excepcion = null;
@@ -400,7 +669,7 @@ public class CuadrosControlador {
                 modelo.lotes.remove(i);
             }
         }
-        ctx.render("cuadro/crear.jte", Collections.singletonMap("modelo", modelo));
+        ctx.render("admin/cuadro/crear.jte", Collections.singletonMap("modelo", modelo));
     }
 
     public void crear(Context ctx) throws Exception {
@@ -434,6 +703,10 @@ public class CuadrosControlador {
             unos[0][i] = cuadro.getPuntoN(i).getLon();
             unos[1][i] = cuadro.getPuntoN(i).getLat();
         }
+        if (!(esGeometria(unos))) {
+            excepcion = "El cuadro no forma una figura geométrica";
+            throw new Exception(excepcion);
+        }
         double[][] otros;
         for (var otro : cuadros) {
             if (otro.esValido()) {
@@ -462,6 +735,11 @@ public class CuadrosControlador {
     }
 
     public void modificar(Context ctx) {
+        if (!(ctx.cookie("usuario").equals("admin"))) {
+            ctx.cookie("usuario", "cualquiera");
+            ctx.redirect("/");
+            return;
+        }
         var modelo = new ModeloCuadro();
         modelo.cuadro = this.repositorio.buscar(Cuadro.class, Integer.parseInt(ctx.pathParam("id")));
         if (modelo.cuadro != null) {
@@ -474,14 +752,14 @@ public class CuadrosControlador {
                         modelo.lotes.remove(i);
                     }
                 }
-                ctx.render("cuadro/editar.jte", Collections.singletonMap("modelo", modelo));
+                ctx.render("admin/cuadro/editar.jte", Collections.singletonMap("modelo", modelo));
                 return;
             }
             excepcion = "El cuadro al que intentó acceder fue eliminado anteriormente";
         } else {
             excepcion = "El cuadro al que intentó acceder no existe";
         }
-        ctx.redirect("/cuadros");
+        ctx.redirect("/admin/cuadros");
     }
 
     public void actualizar(Context ctx) throws Exception {
@@ -515,6 +793,10 @@ public class CuadrosControlador {
             for (int i = 0; i < unos[0].length; i++) {
                 unos[0][i] = puntos.getPositionN(i).getLon();
                 unos[1][i] = puntos.getPositionN(i).getLat();
+            }
+            if (!(esGeometria(unos))) {
+                excepcion = "El cuadro no forma una figura geométrica";
+                throw new Exception(excepcion);
             }
             double[][] otros;
             for (var otro : cuadros) {

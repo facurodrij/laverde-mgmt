@@ -17,7 +17,7 @@ $(document).ready(function () {
         $.post(url, formData, function () {
         })
             .done(function () {
-                location.replace("/empleados");
+                location.replace("/admin/empleados");
             })
             .fail(function () {
                 location.reload();

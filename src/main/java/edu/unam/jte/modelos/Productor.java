@@ -20,13 +20,18 @@ public class Productor {
     @NotNull
     private boolean valido = true;
 
-    @Column(nullable = false, unique = true)
+    @NotNull
+    @Column(unique = true)
     private long cuit;
 
-    @Column(nullable = false)
+    @NotNull
+    @NotBlank
+    @Size(max=50)
     private String apellidos;
 
-    @Column(nullable = false)
+    @NotNull
+    @NotBlank
+    @Size(max=50)
     private String nombres;
 
     @OneToMany(targetEntity = Lote.class, mappedBy = "productor")
